@@ -109,6 +109,7 @@ public class ParseMessageThread extends Thread{
 					}
 				}
 				cmd = jsonObject.getString("cmd");
+				System.out.println("Command is: " + cmd);
 				if (StringUtils.isEmpty(cmd)) {
 					synchronized (PublicDataConf.parseMessageThread) {
 						try {
@@ -559,6 +560,7 @@ public class ParseMessageThread extends Thread{
 
 				// 欢迎老爷进来本直播间
 				case "WELCOME":
+					System.out.println("Welcome");
 					// 区分年月费老爷
 					/*
 					 * if(welcomVip.getSvip()==1) {
@@ -594,12 +596,14 @@ public class ParseMessageThread extends Thread{
 						stringBuilder.delete(0, stringBuilder.length());
 					}
 
+					HttpUserData.httpPostSendBarrage("欢迎进入林清一直播间");
+
 //					LOGGER.debug("让我看看哪个老爷大户进来了:::" + message);
 					break;
 
 				// 欢迎舰长进入直播间
 				case "WELCOME_GUARD":
-
+					System.out.println("Welcome Guard");
 					if (getMessageControlMap().get(ShieldMessage.is_welcome) != null
 							&& getMessageControlMap().get(ShieldMessage.is_welcome)) {
 						welcomeGuard = JSONObject.parseObject(jsonObject.getString("data"), WelcomeGuard.class);
@@ -637,6 +641,9 @@ public class ParseMessageThread extends Thread{
 						stringBuilder.delete(0, stringBuilder.length());
 					}
 //					LOGGER.debug("舰长大大进来直播间了:::" + message);
+
+					HttpUserData.httpPostSendBarrage("欢迎");
+
 					break;
 
 				// 舰长进入直播间消息
@@ -1053,10 +1060,11 @@ public class ParseMessageThread extends Thread{
 
 				// msg_type 1 为进入直播间 2 为关注 3为分享直播间
 				case "INTERACT_WORD":
-					// 关注
+					System.out.println("Interact");
 					if (getMessageControlMap().get(ShieldMessage.is_follow) != null
 							&& getMessageControlMap().get(ShieldMessage.is_follow)) {
 						msg_type = JSONObject.parseObject(jsonObject.getString("data")).getShort("msg_type");
+						//关注
 						if (msg_type == 2) {
 							interact = JSONObject.parseObject(jsonObject.getString("data"), Interact.class);
 							stringBuilder.append(JodaTimeUtils.format(System.currentTimeMillis())).append(":新的关注:")
@@ -1080,6 +1088,20 @@ public class ParseMessageThread extends Thread{
 							}
 							stringBuilder.delete(0, stringBuilder.length());
 						}
+						//进入直播间
+						else if(msg_type == 1){
+							interact = JSONObject.parseObject(jsonObject.getString("data"), Interact.class);
+							stringBuilder.append(JodaTimeUtils.format(System.currentTimeMillis())).append(":新的关注:")
+									.append(interact.getUname()).append(" 关注了直播间");
+
+							//控制台打印
+							if (getMessageControlMap().get(ShieldMessage.is_cmd) != null
+									&& getMessageControlMap().get(ShieldMessage.is_cmd)) {
+								System.out.println(stringBuilder.toString());
+							}
+
+							stringBuilder.delete(0, stringBuilder.length());
+						}
 					}
 					if (getMessageControlMap().get(ShieldMessage.is_followThank) != null
 							&& getMessageControlMap().get(ShieldMessage.is_followThank)) {
@@ -1096,6 +1118,12 @@ public class ParseMessageThread extends Thread{
 							}
 						}
 					}
+
+					//Welcome barrage
+					if(msg_type == 1) {
+						HttpUserData.httpPostSendBarrage("欢迎进入071直播间");
+					}
+
 					msg_type = JSONObject.parseObject(jsonObject.getString("data")).getShort("msg_type");
 					if(msg_type!=1&&msg_type!=2) {
 //			        LOGGER.debug("直播间信息:::" + message);

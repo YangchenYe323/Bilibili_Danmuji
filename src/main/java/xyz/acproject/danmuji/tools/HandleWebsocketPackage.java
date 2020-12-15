@@ -1,6 +1,9 @@
 package xyz.acproject.danmuji.tools;
 
 import java.nio.ByteBuffer;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,6 +49,18 @@ public class HandleWebsocketPackage {
 //			LOGGER.debug("数据包:" + "(" + data_len + "," + head_len + "," + data_ver + "," + data_type + ","
 //					+ data_other + ")");
 			bs = ByteUtils.subBytes(bytes, head_len, data_len - head_len);
+
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			LocalDateTime now = LocalDateTime.now();
+			System.out.print("Unzip-");
+			System.out.print(dtf.format(now));
+			System.out.print(" data length: " + data_len);
+			System.out.print(" head_len: " + head_len);
+			System.out.print(" data_ver: " + data_ver);
+			System.out.print(" data_type: " + data_type);
+			System.out.print(" data_other: " + data_other);
+			System.out.println();
+
 //			resultStr =HexUtils.toHexString(bs);
 			if (data_ver == 2) {
 				if (data_type == 5) {
@@ -132,6 +147,16 @@ public class HandleWebsocketPackage {
 			data_other = barrageHeadHandle.getPackageOther();
 //			LOGGER.debug("子包<"+index+">:"+"("+data_len+","+head_len+","+data_ver+","+data_type+","+data_other+")");
 			bs = ByteUtils.subBytes(byte_c, head_len, data_len - head_len);
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			LocalDateTime now = LocalDateTime.now();
+			System.out.print("Zip-");
+			System.out.print(dtf.format(now));
+			System.out.print(" data length: " + data_len);
+			System.out.print(" head_len: " + head_len);
+			System.out.print(" data_ver: " + data_ver);
+			System.out.print(" data_type: " + data_type);
+			System.out.print(" data_other: " + data_other);
+			System.out.println();
 //			resultStr=HexUtils.toHexString(bs);
 			if (data_ver == 2) {
 				if (data_type == 5) {
