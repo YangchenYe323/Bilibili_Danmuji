@@ -1,3 +1,4 @@
+# B站弹幕机器人项目（原型：https://github.com/BanqiJane/Bilibili_Danmuji.git）
 # 运行环境
 **可在所有主要操作系统上运行，并且仅需要安装Java JDK或JRE版本8或更高版本。要检查，请运行java -version：**
 ```bash
