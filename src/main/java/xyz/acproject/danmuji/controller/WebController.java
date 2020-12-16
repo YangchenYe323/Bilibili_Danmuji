@@ -186,6 +186,7 @@ public class WebController {
 	@RequestMapping(value = "/sendSet", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public Response<?> sendSet(HttpServletRequest req, @RequestParam("set") String set) {
 		try {
+			System.out.println(set);
 			CenterSetConf centerSetConf = JSONObject.parseObject(set, CenterSetConf.class);
 			checkService.changeSet(centerSetConf);
 			

@@ -459,6 +459,56 @@
 								</div>
 							</div>
 							<div class="input-group mb-1">
+								<h5>欢迎姬设置(需要登录)</h5>
+							</div>
+							<div class="input-group mb-3 thankFollow-set">
+								<div class="header-set">
+									<div class="custom-control custom-radio custom-control-inline">
+										<label class="form-check-label"> <input
+												type="checkbox" class="form-check-input welcome_is_open">
+											<span class="_description" data-toggle="tooltip"
+												  data-placement="top" title="" data-original-title="是否打开">开关</span>
+										</label>
+									</div>
+									<div class="custom-control custom-radio custom-control-inline">
+										<label class="form-check-label"> <input
+												type="checkbox" class="form-check-input welcome_is_live_open">
+											<span class="_description" data-toggle="tooltip"
+												  data-placement="top" title="" data-original-title="仅在直播中有效">直播</span>
+										</label>
+									</div>
+									<div
+											class="custom-control-inline small-input-wrap input-margin-s">
+										<input type="number" min="1" class="small-input welcome_num"
+											   οninput="if(value.length>5)value=value.slice(0,5)"
+											   style="ime-mode: Disabled"
+											   onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
+											   placeholder="多少人" data-toggle="tooltip" data-placement="top"
+											   title="" data-html="true" data-original-title="每次欢迎多少个人"
+											   value="1">
+									</div>
+									<div
+											class="custom-control-inline small-input-wrap input-margin-s">
+										<input type="number" min="0"
+											   class="small-input welcome_delaytime"
+											   placeholder="delay time(s)" data-toggle="tooltip"
+											   data-placement="top" title="" data-html="true"
+											   data-original-title="延迟多少秒发送 <br/>最小值为0<br/><span class='red-font'>PS:可统计延时内的关注,一旦延时内有新关注就会重新刷新延时，推荐在多人感谢下使用</span>"
+											   value="0">
+									</div>
+								</div>
+								<div class="form-group footer-set">
+									<!-- 									<input class="form-control follow_follows"
+										placeholder="谢谢 %uNames% 的关注~" data-toggle="tooltip"
+										data-placement="top" title="" data-html="true"
+										data-original-title="感谢语，可选参数<br/> %uNames%关注人名称集合"> -->
+									<textarea class="form-control input-margin-b welcome_welcomes"
+											  placeholder="欢迎 %uNames% ～" data-toggle="tooltip"
+											  data-html="true" data-placement="top" title=""
+											  data-original-title="多条语句时候注意以回车为分割每条语句,多条语句会随机发送其中一条<br/>欢迎语，可选参数<br/> %uNames%关注人名称集合"></textarea>
+								</div>
+							</div>
+							<div class="input-group mb-1">
 								<h5>自动回复姬设置(需要登录)</h5>
 							</div>
 							<div class="input-group mb-3 autoReply-set">
@@ -534,7 +584,7 @@
 					<div class="card-footer">
 						<div class="author-message">
 							B站直播java版弹幕姬 © 2020 <a href="https://blogs.acproject.xyz/"
-								target="_blank"> SaKazaKi(坂崎简) </a>|<a
+								target="_blank"> SaKazaKi(坂崎简 </a>|<a
 								href="https://github.com/BanqiJane/Bilibili_Danmuji"
 								target="_blank" data-toggle="tooltip" data-placement="top"
 								title=""

@@ -1154,11 +1154,11 @@ public class ParseMessageThread extends Thread{
 
 						msg_type = JSONObject.parseObject(jsonObject.getString("data")).getShort("msg_type");
 						if (msg_type == 1) {
-							System.out.println("Send Welcome");
+							//System.out.println("Send Welcome");
 							//System.out.println(JSONObject.parseObject(jsonObject.getString("data")));
 							interact = JSONObject.parseObject(jsonObject.getString("data"), Interact.class);
 							try {
-								System.out.println("BBBBB");
+								//System.out.println("BBBBB");
 								parseWelcomeSetting(interact);
 							} catch (Exception e) {
 								// TODO 自动生成的 catch 块

@@ -274,8 +274,8 @@ public class SetServiceImpl implements SetService {
 		}
 		base64Encoder = null;
 		hashtable.clear();
-		System.out.println(PublicDataConf.centerSetConf.getWelcome().isIs_open());
-		System.out.println(PublicDataConf.centerSetConf.getWelcome().isIs_live_open());
+		//System.out.println(PublicDataConf.centerSetConf.getWelcome().isIs_open());
+		//System.out.println(PublicDataConf.centerSetConf.getWelcome().isIs_live_open());
 	}
 
 

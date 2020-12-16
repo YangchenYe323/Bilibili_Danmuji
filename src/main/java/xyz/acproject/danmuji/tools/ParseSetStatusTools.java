@@ -154,7 +154,7 @@ public class ParseSetStatusTools {
 		}else {
 			messageConcurrentHashMap.put(ShieldMessage.is_followThank, false);
 		}
-		System.out.println("CCCCC");
+		//System.out.println("CCCCC");
 		if (!StringUtils.isEmpty(PublicDataConf.USERCOOKIE)) {
 			if(centerSetConf.getWelcome().isIs_live_open()) {
 				if(live_status!=1) {
@@ -168,7 +168,7 @@ public class ParseSetStatusTools {
 				}
 			}else {
 				if (centerSetConf.getWelcome().isIs_open()) {
-					System.out.println("Welcome Open");
+					//System.out.println("Welcome Open");
 					messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, true);
 				} else {
 					messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, false);

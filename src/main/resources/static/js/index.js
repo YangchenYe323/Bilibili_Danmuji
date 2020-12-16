@@ -119,6 +119,7 @@ $(document).on(
 				"advert" : {},
 				"follow" : {},
 				"reply"  : {"autoReplySets":[]},
+				"welcome": {},
 			};
 			set.is_auto = $(".is_autoStart").is(
 			':checked');
@@ -184,18 +185,27 @@ $(document).on(
 			.is(':checked');
 			set.thank_gift.report = $(".thankgift_report").val();
 			set.thank_gift.report_barrage=$(".thankgift_barrageReport").val();
+
 			set.advert.is_open = $(".advert_is_open").is(':checked');
 			set.advert.is_live_open = $(".advert_is_live_open").is(':checked');
 			set.advert.status = Number($(".advert_status").find(
 					"option:selected").val()) - 1;
 			set.advert.time = Number($(".advert_time").val());
 			set.advert.adverts = $(".advert_adverts").val();
+
 			set.follow.is_open = $(".follow_is_open").is(':checked');
 			set.follow.is_live_open = $(".follow_is_live_open").is(':checked');
 			set.follow.is_tx_shield = $(".follow_tx_shield").is(':checked');
 			set.follow.num = Number($(".follow_num").val());
 			set.follow.follows = $(".follow_follows").val();
 			set.follow.delaytime= Number($(".thankfollow_delaytime").val());
+
+			set.welcome.is_open = $(".welcome_is_open").is(':checked');
+            set.welcome.is_live_open = $(".welcome_is_live_open").is(':checked');
+            set.welcome.num = Number($(".welcome_num").val());
+            set.welcome.welcomes = $(".welcome_welcomes").val();
+            set.welcome.delaytime = Number($(".welcome_delaytime").val());
+
 			set.reply.is_open = $(".replys_is_open").is(':checked');
 			set.reply.is_live_open=$(".replys_is_live_open").is(':checked');
 			set.reply.time=Number($(".replys_time").val());
@@ -724,6 +734,13 @@ const method = {
 			$(".follow_num").val(set.follow.num);
 			$(".follow_follows").val(set.follow.follows);
 			$(".thankfollow_delaytime").val(set.follow.delaytime);
+
+			$(".welcome_is_open").prop('checked', set.welcome.is_open);
+            $(".welcome_is_live_open").prop('checked', set.welcome.is_live_open);
+            $(".welcome_num").val(set.welcome.num);
+            $(".welcome_follows").val(set.welcome.welcomes);
+            $(".welcome_delaytime").val(set.welcome.delaytime);
+
 			$(".replys_is_open").prop('checked',
 					set.reply.is_open);
 			$(".replys_is_live_open").prop('checked',

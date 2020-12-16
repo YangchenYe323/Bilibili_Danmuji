@@ -47,7 +47,7 @@ public class ParseWelcomeThread extends Thread {
                     //do something
                     //System.out.println("Thread");
                     if(PublicDataConf.welcomeInteracts.size()>0) {
-                        System.out.println("Thread");
+                        //System.out.println("Thread");
                         interacts.addAll(PublicDataConf.welcomeInteracts);
                         for (int i = 0; i < interacts.size(); i += getNum()) {
                             for (int j = i; j < i + getNum(); j++) {

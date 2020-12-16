@@ -25,7 +25,7 @@ public class WelcomeSetConf implements Serializable {
     private String welcomes = "欢迎%uNames%～";
 
     //发送欢迎延迟时间
-    private double delaytime = 0;
+    private double delaytime = 1;
 
     public WelcomeSetConf(){
         super();
