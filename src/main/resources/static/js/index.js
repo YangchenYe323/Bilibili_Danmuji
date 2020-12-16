@@ -659,6 +659,9 @@ const method = {
 	sendSet : function(set) {
 		"use strict";
 		var flag = false;
+
+		console.log(set);
+
 		$.ajax({
 			url : '../sendSet',
 			data : {
