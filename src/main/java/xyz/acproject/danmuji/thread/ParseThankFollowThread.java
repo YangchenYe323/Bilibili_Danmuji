@@ -44,8 +44,8 @@ public class ParseThankFollowThread extends Thread {
 				if (nowTime - getTimestamp() < getDelaytime()) {
 				} else {
 					//do something
-					if(PublicDataConf.interacts.size()>0) {
-						interacts.addAll(PublicDataConf.interacts);
+					if(PublicDataConf.subscribeInteracts.size()>0) {
+						interacts.addAll(PublicDataConf.subscribeInteracts);
 						for (int i = 0; i < interacts.size(); i += getNum()) {
 							for (int j = i; j < i + getNum(); j++) {
 								if (j >= interacts.size()) {
@@ -68,7 +68,7 @@ public class ParseThankFollowThread extends Thread {
 						}
 					}
 					interacts.clear();
-					PublicDataConf.interacts.clear();
+					PublicDataConf.subscribeInteracts.clear();
 					break;
 				}
 			}

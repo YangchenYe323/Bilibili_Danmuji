@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +18,7 @@ import xyz.acproject.danmuji.conf.PublicDataConf;
 import xyz.acproject.danmuji.conf.set.ThankFollowSetConf;
 import xyz.acproject.danmuji.conf.set.ThankGiftRuleSet;
 import xyz.acproject.danmuji.conf.set.ThankGiftSetConf;
+import xyz.acproject.danmuji.conf.set.WelcomeSetConf;
 import xyz.acproject.danmuji.controller.DanmuWebsocket;
 import xyz.acproject.danmuji.entity.Welcome.WelcomeGuard;
 import xyz.acproject.danmuji.entity.Welcome.WelcomeVip;
@@ -42,6 +44,8 @@ import xyz.acproject.danmuji.tools.ShieldGiftTools;
 import xyz.acproject.danmuji.utils.JodaTimeUtils;
 import xyz.acproject.danmuji.utils.SpringUtils;
 
+import javax.swing.plaf.synth.SynthEditorPaneUI;
+
 /**
  * @ClassName ParseMessageThread
  * @Description TODO
@@ -59,6 +63,7 @@ public class ParseMessageThread extends Thread{
 	private ThreadComponent threadComponent = SpringUtils.getBean(ThreadComponent.class);
 	private ThankGiftSetConf thankGiftSetConf;
 	private ThankFollowSetConf thankFollowSetConf;
+	private WelcomeSetConf welcomeSetConf;
 	private HashSet<ThankGiftRuleSet> thankGiftRuleSets;
 
 	@Override
@@ -109,7 +114,6 @@ public class ParseMessageThread extends Thread{
 					}
 				}
 				cmd = jsonObject.getString("cmd");
-				System.out.println("Command is: " + cmd);
 				if (StringUtils.isEmpty(cmd)) {
 					synchronized (PublicDataConf.parseMessageThread) {
 						try {
@@ -206,7 +210,7 @@ public class ParseMessageThread extends Thread{
 							e.printStackTrace();
 						}
 						//高级显示处理
-						
+
 //						try {
 //							danmuWebsocket.sendMessage(WsPackage.toJson("danmu", (short)0, barrage));
 //						} catch (Exception e) {
@@ -560,7 +564,6 @@ public class ParseMessageThread extends Thread{
 
 				// 欢迎老爷进来本直播间
 				case "WELCOME":
-					System.out.println("Welcome");
 					// 区分年月费老爷
 					/*
 					 * if(welcomVip.getSvip()==1) {
@@ -596,14 +599,11 @@ public class ParseMessageThread extends Thread{
 						stringBuilder.delete(0, stringBuilder.length());
 					}
 
-					HttpUserData.httpPostSendBarrage("欢迎进入林清一直播间");
-
 //					LOGGER.debug("让我看看哪个老爷大户进来了:::" + message);
 					break;
 
 				// 欢迎舰长进入直播间
 				case "WELCOME_GUARD":
-					System.out.println("Welcome Guard");
 					if (getMessageControlMap().get(ShieldMessage.is_welcome) != null
 							&& getMessageControlMap().get(ShieldMessage.is_welcome)) {
 						welcomeGuard = JSONObject.parseObject(jsonObject.getString("data"), WelcomeGuard.class);
@@ -642,7 +642,7 @@ public class ParseMessageThread extends Thread{
 					}
 //					LOGGER.debug("舰长大大进来直播间了:::" + message);
 
-					HttpUserData.httpPostSendBarrage("欢迎");
+					//HttpUserData.httpPostSendBarrage("欢迎");
 
 					break;
 
@@ -1060,11 +1060,10 @@ public class ParseMessageThread extends Thread{
 
 				// msg_type 1 为进入直播间 2 为关注 3为分享直播间
 				case "INTERACT_WORD":
-					System.out.println("Interact");
+					//关注
 					if (getMessageControlMap().get(ShieldMessage.is_follow) != null
 							&& getMessageControlMap().get(ShieldMessage.is_follow)) {
 						msg_type = JSONObject.parseObject(jsonObject.getString("data")).getShort("msg_type");
-						//关注
 						if (msg_type == 2) {
 							interact = JSONObject.parseObject(jsonObject.getString("data"), Interact.class);
 							stringBuilder.append(JodaTimeUtils.format(System.currentTimeMillis())).append(":新的关注:")
@@ -1089,7 +1088,7 @@ public class ParseMessageThread extends Thread{
 							stringBuilder.delete(0, stringBuilder.length());
 						}
 						//进入直播间
-						else if(msg_type == 1){
+						/*else if(msg_type == 1){
 							interact = JSONObject.parseObject(jsonObject.getString("data"), Interact.class);
 							stringBuilder.append(JodaTimeUtils.format(System.currentTimeMillis())).append(":新的关注:")
 									.append(interact.getUname()).append(" 关注了直播间");
@@ -1101,8 +1100,9 @@ public class ParseMessageThread extends Thread{
 							}
 
 							stringBuilder.delete(0, stringBuilder.length());
-						}
+						}*/
 					}
+					//感谢关注弹幕
 					if (getMessageControlMap().get(ShieldMessage.is_followThank) != null
 							&& getMessageControlMap().get(ShieldMessage.is_followThank)) {
 						if (!PublicDataConf.ISSHIELDFOLLOW) {
@@ -1119,10 +1119,63 @@ public class ParseMessageThread extends Thread{
 						}
 					}
 
-					//Welcome barrage
-					if(msg_type == 1) {
-						HttpUserData.httpPostSendBarrage("欢迎进入071直播间");
+
+					//欢迎
+					if(getMessageControlMap().get(ShieldMessage.is_welcome) != null
+						&& getMessageControlMap().get(ShieldMessage.is_welcome)){
+						msg_type = JSONObject.parseObject(jsonObject.getString("data")).getShort("msg_type");
+						if (msg_type == 1) {
+							interact = JSONObject.parseObject(jsonObject.getString("data"), Interact.class);
+							stringBuilder.append(JodaTimeUtils.format(System.currentTimeMillis())).append(":进入直播间:")
+									.append(interact.getUname()).append(" 进入了直播间");
+							//控制台打印
+							if (getMessageControlMap().get(ShieldMessage.is_cmd) != null
+									&& getMessageControlMap().get(ShieldMessage.is_cmd)) {
+								System.out.println(stringBuilder.toString());
+							}
+							if (PublicDataConf.logThread != null && !PublicDataConf.logThread.FLAG) {
+								PublicDataConf.logString.add(stringBuilder.toString());
+								synchronized (PublicDataConf.logThread) {
+									PublicDataConf.logThread.notify();
+								}
+							}
+							try {
+								//danmuWebsocket.sendMessage(WsPackage.toJson("follow", (short)0, interact));
+							} catch (Exception e) {
+								// TODO 自动生成的 catch 块
+								e.printStackTrace();
+							}
+							stringBuilder.delete(0, stringBuilder.length());
+						}
 					}
+					//发送欢迎弹幕
+					if(getMessageControlMap().get(ShieldMessage.is_welcome_thank) != null
+						&& getMessageControlMap().get(ShieldMessage.is_welcome_thank)){
+
+						msg_type = JSONObject.parseObject(jsonObject.getString("data")).getShort("msg_type");
+						if (msg_type == 1) {
+							System.out.println("Send Welcome");
+							//System.out.println(JSONObject.parseObject(jsonObject.getString("data")));
+							interact = JSONObject.parseObject(jsonObject.getString("data"), Interact.class);
+							try {
+								System.out.println("BBBBB");
+								parseWelcomeSetting(interact);
+							} catch (Exception e) {
+								// TODO 自动生成的 catch 块
+								e.printStackTrace();
+							}
+						}
+
+					}
+
+
+
+					//if(messageControlMap.get(ShieldMessage.is_welcome) != null)
+
+					//Welcome barrage
+					/*if(msg_type == 1) {
+						HttpUserData.httpPostSendBarrage("欢迎进入071直播间");
+					}*/
 
 					msg_type = JSONObject.parseObject(jsonObject.getString("data")).getShort("msg_type");
 					if(msg_type!=1&&msg_type!=2) {
@@ -1261,9 +1314,35 @@ public class ParseMessageThread extends Thread{
 		if (interact != null && !StringUtils.isEmpty(PublicDataConf.USERCOOKIE)) {
 			if (PublicDataConf.sendBarrageThread != null && PublicDataConf.parsethankFollowThread != null) {
 				if (!PublicDataConf.sendBarrageThread.FLAG && !PublicDataConf.parsethankFollowThread.FLAG) {
-					PublicDataConf.interacts.add(interact);
+					PublicDataConf.subscribeInteracts.add(interact);
 					DelayFollowTimeSetting();
 				}
+			}
+		}
+	}
+
+	public void delayWelcomeTimeSetting() {
+		synchronized (PublicDataConf.parseWelcomeThread) {
+			if (PublicDataConf.parseWelcomeThread != null) {
+				threadComponent.startParseWelcomeThread(getWelcomeConf());
+			}
+		}
+	}
+
+
+	public synchronized void parseWelcomeSetting(Interact interact) throws Exception{
+		if (interact != null && !StringUtils.isEmpty(PublicDataConf.USERCOOKIE)){
+			if(PublicDataConf.sendBarrageThread != null && PublicDataConf.parseWelcomeThread != null){
+				if(!PublicDataConf.sendBarrageThread.FLAG && !PublicDataConf.parseWelcomeThread.FLAG){
+					PublicDataConf.welcomeInteracts.add(interact);
+					//System.out.println(interact.getUname());
+					delayWelcomeTimeSetting();
+				}
+			} else{
+				if (PublicDataConf.sendBarrageThread == null)
+					System.out.println("Null Barrage Thread");
+				if (PublicDataConf.parseWelcomeThread == null)
+					System.out.println("Null Welcome Thread");
 			}
 		}
 	}
@@ -1281,8 +1360,17 @@ public class ParseMessageThread extends Thread{
 		return thankFollowSetConf;
 	}
 
+	private WelcomeSetConf getWelcomeConf() {
+		return welcomeSetConf;
+	}
+
+
 	public void setThankFollowSetConf(ThankFollowSetConf thankFollowSetConf) {
 		this.thankFollowSetConf = thankFollowSetConf;
+	}
+
+	public void setWelcomeSetConf(WelcomeSetConf welcomeSetConf){
+		this.welcomeSetConf = welcomeSetConf;
 	}
 
 	public ConcurrentHashMap<ShieldMessage, Boolean> getMessageControlMap() {

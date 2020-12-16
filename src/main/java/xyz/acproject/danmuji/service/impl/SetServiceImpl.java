@@ -2,13 +2,10 @@ package xyz.acproject.danmuji.service.impl;
 
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.util.ExecutorServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +16,7 @@ import xyz.acproject.danmuji.component.TaskRegisterComponent;
 import xyz.acproject.danmuji.component.ThreadComponent;
 import xyz.acproject.danmuji.conf.CenterSetConf;
 import xyz.acproject.danmuji.conf.PublicDataConf;
-import xyz.acproject.danmuji.conf.set.AdvertSetConf;
-import xyz.acproject.danmuji.conf.set.AutoReplySetConf;
-import xyz.acproject.danmuji.conf.set.ThankFollowSetConf;
-import xyz.acproject.danmuji.conf.set.ThankGiftSetConf;
+import xyz.acproject.danmuji.conf.set.*;
 import xyz.acproject.danmuji.entity.user_data.UserCookie;
 import xyz.acproject.danmuji.enums.ShieldMessage;
 import xyz.acproject.danmuji.file.ProFileTools;
@@ -99,7 +93,7 @@ public class SetServiceImpl implements SetService {
 		}
 		if (PublicDataConf.centerSetConf == null) {
 			PublicDataConf.centerSetConf = new CenterSetConf(new ThankGiftSetConf(), new AdvertSetConf(),
-					new ThankFollowSetConf(), new AutoReplySetConf());
+					new ThankFollowSetConf(), new WelcomeSetConf(), new AutoReplySetConf());
 		} else {
 			if (PublicDataConf.centerSetConf.getRoomid() != null && PublicDataConf.centerSetConf.getRoomid() > 0)
 				PublicDataConf.ROOMID_SAFE = PublicDataConf.centerSetConf.getRoomid();
@@ -118,6 +112,9 @@ public class SetServiceImpl implements SetService {
 		if (PublicDataConf.centerSetConf.getReply() == null) {
 			PublicDataConf.centerSetConf.setReply(new AutoReplySetConf());
 		}
+		if (PublicDataConf.centerSetConf.getWelcome() == null) {
+			PublicDataConf.centerSetConf.setWelcome(new WelcomeSetConf());
+		}
 		hashtable.put("set", base64Encoder.encode(PublicDataConf.centerSetConf.toJson().getBytes()));
 		ProFileTools.write(hashtable, "DanmujiProfile");
 		try {
@@ -128,6 +125,9 @@ public class SetServiceImpl implements SetService {
 			// TODO: handle exception
 			LOGGER.error("读取配置文件失败" + e);
 		}
+
+		//System.out.println(PublicDataConf.centerSetConf.toJson());
+
 		// 分离cookie
 		if (!StringUtils.isEmpty(PublicDataConf.USERCOOKIE) && PublicDataConf.COOKIE == null) {
 			String key = null;
@@ -220,6 +220,7 @@ public class SetServiceImpl implements SetService {
 
 	// 保存配置文件
 	public void changeSet(CenterSetConf centerSetConf) {
+		//if no change at all, skip the operation
 		if (centerSetConf.toJson().equals(PublicDataConf.centerSetConf.toJson())) {
 			LOGGER.debug("保存配置文件成功");
 			return;
@@ -244,6 +245,7 @@ public class SetServiceImpl implements SetService {
 			LOGGER.debug("保存配置文件成功");
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			LOGGER.error("保存配置文件失败:" + e);
 		}
 		base64Encoder = null;
@@ -272,6 +274,8 @@ public class SetServiceImpl implements SetService {
 		}
 		base64Encoder = null;
 		hashtable.clear();
+		System.out.println(PublicDataConf.centerSetConf.getWelcome().isIs_open());
+		System.out.println(PublicDataConf.centerSetConf.getWelcome().isIs_live_open());
 	}
 
 
@@ -374,12 +378,13 @@ public class SetServiceImpl implements SetService {
 			if (PublicDataConf.advertThread == null
 					&& !PublicDataConf.parseMessageThread.getMessageControlMap().get(ShieldMessage.is_followThank)
 					&& !PublicDataConf.parseMessageThread.getMessageControlMap().get(ShieldMessage.is_giftThank)
+					&& !PublicDataConf.parseMessageThread.getMessageControlMap().get(ShieldMessage.is_welcome_thank)
 					&& PublicDataConf.autoReplyThread == null) {
 				threadComponent.closeSendBarrageThread();
 				PublicDataConf.replys.clear();
 				PublicDataConf.thankGiftConcurrentHashMap.clear();
 				PublicDataConf.barrageString.clear();
-				PublicDataConf.interacts.clear();
+				PublicDataConf.subscribeInteracts.clear();
 			} else {
 				threadComponent.startSendBarrageThread();
 			}
@@ -413,7 +418,7 @@ public class SetServiceImpl implements SetService {
 			PublicDataConf.thankGiftConcurrentHashMap.clear();
 			PublicDataConf.barrageString.clear();
 			PublicDataConf.logString.clear();
-			PublicDataConf.interacts.clear();
+			PublicDataConf.subscribeInteracts.clear();
 		}
 	}
 
@@ -439,7 +444,7 @@ public class SetServiceImpl implements SetService {
 		PublicDataConf.replys.clear();
 		PublicDataConf.thankGiftConcurrentHashMap.clear();
 		PublicDataConf.barrageString.clear();
-		PublicDataConf.interacts.clear();
+		PublicDataConf.subscribeInteracts.clear();
 		holdSet(PublicDataConf.centerSetConf);
 		LOGGER.debug("用户退出成功");
 	}

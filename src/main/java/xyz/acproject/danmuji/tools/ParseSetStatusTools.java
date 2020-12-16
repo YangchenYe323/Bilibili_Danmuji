@@ -145,6 +145,7 @@ public class ParseSetStatusTools {
 				}
 			}else {
 				if (centerSetConf.getFollow().isIs_open()) {
+					//System.out.println("Follow Thank Open");
 					messageConcurrentHashMap.put(ShieldMessage.is_followThank, true);
 				} else {
 					messageConcurrentHashMap.put(ShieldMessage.is_followThank, false);
@@ -152,6 +153,29 @@ public class ParseSetStatusTools {
 			}
 		}else {
 			messageConcurrentHashMap.put(ShieldMessage.is_followThank, false);
+		}
+		System.out.println("CCCCC");
+		if (!StringUtils.isEmpty(PublicDataConf.USERCOOKIE)) {
+			if(centerSetConf.getWelcome().isIs_live_open()) {
+				if(live_status!=1) {
+					messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, false);
+				}else {
+					if (centerSetConf.getWelcome().isIs_open()) {
+						messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, true);
+					} else {
+						messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, false);
+					}
+				}
+			}else {
+				if (centerSetConf.getWelcome().isIs_open()) {
+					System.out.println("Welcome Open");
+					messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, true);
+				} else {
+					messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, false);
+				}
+			}
+		}else {
+			messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, false);
 		}
 		if (!StringUtils.isEmpty(PublicDataConf.USERCOOKIE)) {
 			if (centerSetConf.getThank_gift().isIs_guard_local()) {

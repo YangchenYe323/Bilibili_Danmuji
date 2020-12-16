@@ -10,20 +10,10 @@ import org.springframework.stereotype.Component;
 import xyz.acproject.danmuji.component.ThreadComponent;
 import xyz.acproject.danmuji.conf.CenterSetConf;
 import xyz.acproject.danmuji.conf.PublicDataConf;
-import xyz.acproject.danmuji.conf.set.AutoReplySet;
-import xyz.acproject.danmuji.conf.set.ThankFollowSetConf;
-import xyz.acproject.danmuji.conf.set.ThankGiftRuleSet;
-import xyz.acproject.danmuji.conf.set.ThankGiftSetConf;
+import xyz.acproject.danmuji.conf.set.*;
 import xyz.acproject.danmuji.enums.ShieldMessage;
 import xyz.acproject.danmuji.http.HttpOtherData;
-import xyz.acproject.danmuji.thread.AdvertThread;
-import xyz.acproject.danmuji.thread.AutoReplyThread;
-import xyz.acproject.danmuji.thread.FollowShieldThread;
-import xyz.acproject.danmuji.thread.GiftShieldThread;
-import xyz.acproject.danmuji.thread.LogThread;
-import xyz.acproject.danmuji.thread.ParseThankFollowThread;
-import xyz.acproject.danmuji.thread.ParseThankGiftThread;
-import xyz.acproject.danmuji.thread.SendBarrageThread;
+import xyz.acproject.danmuji.thread.*;
 import xyz.acproject.danmuji.thread.core.HeartByteThread;
 import xyz.acproject.danmuji.thread.core.ParseMessageThread;
 import xyz.acproject.danmuji.thread.online.HeartBeatThread;
@@ -66,6 +56,7 @@ public class ThreadComponentImpl implements ThreadComponent {
 			PublicDataConf.parseMessageThread.setMessageControlMap(messageControlMap);
 			PublicDataConf.parseMessageThread.setThankGiftSetConf(centerSetConf.getThank_gift());
 			PublicDataConf.parseMessageThread.setThankFollowSetConf(centerSetConf.getFollow());
+			PublicDataConf.parseMessageThread.setWelcomeSetConf(centerSetConf.getWelcome());
 			PublicDataConf.parseMessageThread.setThankGiftRuleSets(thankGiftRuleSets);
 			return false;
 		}
@@ -75,6 +66,7 @@ public class ThreadComponentImpl implements ThreadComponent {
 		PublicDataConf.parseMessageThread.setMessageControlMap(messageControlMap);
 		PublicDataConf.parseMessageThread.setThankGiftSetConf(centerSetConf.getThank_gift());
 		PublicDataConf.parseMessageThread.setThankFollowSetConf(centerSetConf.getFollow());
+		PublicDataConf.parseMessageThread.setWelcomeSetConf(centerSetConf.getWelcome());
 		PublicDataConf.parseMessageThread.setThankGiftRuleSets(thankGiftRuleSets);
 		if (PublicDataConf.parseMessageThread != null
 				&& !PublicDataConf.parseMessageThread.getState().toString().equals("TERMINATED")) {
@@ -330,6 +322,23 @@ public class ThreadComponentImpl implements ThreadComponent {
 			PublicDataConf.parsethankFollowThread.setTimestamp(System.currentTimeMillis());
 			PublicDataConf.parsethankFollowThread.setThankFollowString(thankFollowSetConf.getFollows());
 			PublicDataConf.parsethankFollowThread.setNum(thankFollowSetConf.getNum());
+		}
+	}
+
+	@Override
+	public void startParseWelcomeThread(WelcomeSetConf welcomeSetConf){
+		if (PublicDataConf.parseWelcomeThread.getState().toString().equals("TERMINATED")
+				|| PublicDataConf.parseWelcomeThread.getState().toString().equals("NEW")) {
+			PublicDataConf.parseWelcomeThread = new ParseWelcomeThread();
+			PublicDataConf.parseWelcomeThread.setDelaytime((long) (1000 * welcomeSetConf.getDelaytime()));
+			PublicDataConf.parseWelcomeThread.start();
+			PublicDataConf.parseWelcomeThread.setTimestamp(System.currentTimeMillis());
+			PublicDataConf.parseWelcomeThread.setWelcomeString(welcomeSetConf.getWelcomes());
+			PublicDataConf.parseWelcomeThread.setNum(welcomeSetConf.getNum());
+		} else {
+			PublicDataConf.parseWelcomeThread.setTimestamp(System.currentTimeMillis());
+			PublicDataConf.parseWelcomeThread.setWelcomeString(welcomeSetConf.getWelcomes());
+			PublicDataConf.parseWelcomeThread.setNum(welcomeSetConf.getNum());
 		}
 	}
 

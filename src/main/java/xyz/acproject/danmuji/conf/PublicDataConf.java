@@ -11,14 +11,7 @@ import xyz.acproject.danmuji.entity.user_data.User;
 import xyz.acproject.danmuji.entity.user_data.UserCookie;
 import xyz.acproject.danmuji.entity.user_in_room_barrageMsg.UserBarrageMsg;
 import xyz.acproject.danmuji.entity.view.RoomGift;
-import xyz.acproject.danmuji.thread.AdvertThread;
-import xyz.acproject.danmuji.thread.AutoReplyThread;
-import xyz.acproject.danmuji.thread.FollowShieldThread;
-import xyz.acproject.danmuji.thread.GiftShieldThread;
-import xyz.acproject.danmuji.thread.LogThread;
-import xyz.acproject.danmuji.thread.ParseThankFollowThread;
-import xyz.acproject.danmuji.thread.ParseThankGiftThread;
-import xyz.acproject.danmuji.thread.SendBarrageThread;
+import xyz.acproject.danmuji.thread.*;
 import xyz.acproject.danmuji.thread.core.HeartByteThread;
 import xyz.acproject.danmuji.thread.core.ParseMessageThread;
 import xyz.acproject.danmuji.thread.core.ReConnThread;
@@ -98,7 +91,9 @@ public class PublicDataConf {
 	//log日志待写入集合
 	public final static Vector<String> logString = new Vector<String>(100);
 	//待发送感谢关注集合
-	public final static Vector<Interact> interacts = new Vector<Interact>(200);
+	public final static Vector<Interact> subscribeInteracts = new Vector<Interact>(200);
+	//待发送欢迎集合
+	public final static Vector<Interact> welcomeInteracts = new Vector<Interact>(200);
 	//自动回复处理弹幕
 	public final static Vector<AutoReply> replys = new Vector<AutoReply>();
 	
@@ -106,6 +101,8 @@ public class PublicDataConf {
 	public static LogThread logThread;
 	//处理关注数刷新线程
 	public static ParseThankFollowThread parsethankFollowThread = new ParseThankFollowThread();
+	//欢迎线程
+	public static ParseWelcomeThread parseWelcomeThread = new ParseWelcomeThread();
 	//广告姬线程
 	public static AdvertThread advertThread;
 	//感谢礼物数据集线程

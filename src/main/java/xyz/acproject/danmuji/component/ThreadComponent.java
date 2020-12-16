@@ -7,6 +7,7 @@ import xyz.acproject.danmuji.conf.CenterSetConf;
 import xyz.acproject.danmuji.conf.set.ThankFollowSetConf;
 import xyz.acproject.danmuji.conf.set.ThankGiftRuleSet;
 import xyz.acproject.danmuji.conf.set.ThankGiftSetConf;
+import xyz.acproject.danmuji.conf.set.WelcomeSetConf;
 import xyz.acproject.danmuji.enums.ShieldMessage;
 
 /**
@@ -54,6 +55,9 @@ public interface ThreadComponent {
 
 	// 开启public的关注感谢线程
 	void startParseThankFollowThread(ThankFollowSetConf thankFollowSetConf);
+
+	//开启欢迎线程
+	void startParseWelcomeThread(WelcomeSetConf welcomeSetConf);
 
 	// 设置处理弹幕包线程
 	void setParseMessageThread(ConcurrentHashMap<ShieldMessage, Boolean> messageControlMap,

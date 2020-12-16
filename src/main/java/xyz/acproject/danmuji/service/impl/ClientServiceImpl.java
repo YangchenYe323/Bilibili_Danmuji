@@ -235,7 +235,7 @@ public class ClientServiceImpl implements ClientService{
 				PublicDataConf.resultStrs.clear();
 				PublicDataConf.thankGiftConcurrentHashMap.clear();
 				PublicDataConf.barrageString.clear();
-				PublicDataConf.interacts.clear();
+				PublicDataConf.subscribeInteracts.clear();
 				PublicDataConf.logString.clear();
 				PublicDataConf.ROOMID = null;
 				PublicDataConf.ANCHOR_NAME = null;
