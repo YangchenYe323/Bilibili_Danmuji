@@ -741,7 +741,7 @@ const method = {
 			$(".welcome_is_open").prop('checked', set.welcome.is_open);
             $(".welcome_is_live_open").prop('checked', set.welcome.is_live_open);
             $(".welcome_num").val(set.welcome.num);
-            $(".welcome_follows").val(set.welcome.welcomes);
+            $(".welcome_welcomes").val(set.welcome.welcomes);
             $(".welcome_delaytime").val(set.welcome.delaytime);
 
 			$(".replys_is_open").prop('checked',
