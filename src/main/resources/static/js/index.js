@@ -645,6 +645,8 @@ const danmuku = {
 				return `<div class="danmu-child" uid="`+d.uid+`">`+danmuku.type(2)+danmuku.time(d)+danmuku.dname(d)+danmuku.stext(d)+danmuku.tips(d)+`</div>`;
 			case "welcomeVip":
 				return `<div class="danmu-child" uid="`+d.uid+`">`+danmuku.type(4)+danmuku.only_time(getTimestamp())+`<span class="danmu-text">欢迎</span><a href="javascript:;"><span class="danmu-name">`+d.uname+`</span></a><span class="danmu-text">老爷进入直播间</span>`+danmuku.tips(d)+`</div>`;
+			case "welcome":
+				return `<div class="danmu-child" uid="`+d.uid+`">`+danmuku.type(4)+danmuku.only_time(getTimestamp())+`<span class="danmu-text">欢迎</span><a href="javascript:;"><span class="danmu-name">`+d.uname+`</span></a><span class="danmu-text">进入直播间</span>`+danmuku.tips(d)+`</div>`;
 			case "welcomeGuard":
 				return `<div class="danmu-child" uid="`+d.uid+`">`+danmuku.type(4)+danmuku.only_time(getTimestamp())+`<span class="danmu-text">欢迎</span><a href="javascript:;"><span class="danmu-name">`+d.username+`</span></a><span class="danmu-text">舰长进入直播间</span>`+danmuku.tips(d)+`</div>`;
 			case "block":

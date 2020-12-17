@@ -1140,7 +1140,7 @@ public class ParseMessageThread extends Thread{
 								}
 							}
 							try {
-								//danmuWebsocket.sendMessage(WsPackage.toJson("follow", (short)0, interact));
+								danmuWebsocket.sendMessage(WsPackage.toJson("welcome", (short)3, interact));
 							} catch (Exception e) {
 								// TODO 自动生成的 catch 块
 								e.printStackTrace();
