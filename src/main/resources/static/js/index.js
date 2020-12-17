@@ -111,6 +111,8 @@ $(document).on(
 			var c6 = false;
 			var c7 = false;
 			var c8 = false;
+			var c9 = false;
+			var c10 = false;
 			var set = {
 				"thank_gift" : {
 					"giftStrings" :[],
@@ -223,6 +225,22 @@ $(document).on(
 					method.delay_method(".notice-message", "感谢关注必须大于0");
 				}
 			}
+
+			if ($(".welcome_is_open").is(':checked')) {
+            	if ($(".welcome_welcomes").val().trim() !== null
+            			&& $(".welcome_welcomes").val().trim() !== "") {
+            	} else {
+            		c9 = true;
+            			method.delay_method(".notice-message", "欢迎语不能为空");
+            	}
+            		if (Number($(".welcome_num").val()) > 0) {
+
+                } else {
+            		c5 = true;
+            			method.delay_method(".notice-message", "欢迎数目必须大于0");
+            	}
+            }
+
 			if ($(".thankgift_is_open").is(':checked')) {
 				if ($(".thankgift_thank").val().trim() !== null
 						&& $(".thankgift_thank").val().trim() !== "") {
@@ -269,7 +287,7 @@ $(document).on(
 			}
 		    });
 			if ($(".card-body").find(".logined").length > 0) {
-				if (!c1 && !c2 && !c3 && !c4 && !c5 && !c6&&!c7&&!c8) {
+				if (!c1 && !c2 && !c3 && !c4 && !c5 && !c6&&!c7&&!c8 && !c9 && !c10) {
 					console.log(set);
 					method.initSet(set);
 					if (method.sendSet(set)) {

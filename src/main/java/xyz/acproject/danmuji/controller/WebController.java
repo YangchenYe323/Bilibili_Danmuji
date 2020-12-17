@@ -188,6 +188,8 @@ public class WebController {
 		try {
 			System.out.println(set);
 			CenterSetConf centerSetConf = JSONObject.parseObject(set, CenterSetConf.class);
+			System.out.println(centerSetConf.getFollow().getFollows());
+			System.out.println(centerSetConf.getWelcome().getWelcomes());
 			checkService.changeSet(centerSetConf);
 			
 		} catch (Exception e) {

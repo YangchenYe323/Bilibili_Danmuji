@@ -239,6 +239,7 @@ public class SetServiceImpl implements SetService {
 			PublicDataConf.centerSetConf = JSONObject.parseObject(
 					new String(base64Encoder.decode(ProFileTools.read("DanmujiProfile").get("set"))),
 					CenterSetConf.class);
+			System.out.println(PublicDataConf.centerSetConf.getWelcome().getWelcomes());
 			if (PublicDataConf.ROOMID != null) {
 				holdSet(centerSetConf);
 			}

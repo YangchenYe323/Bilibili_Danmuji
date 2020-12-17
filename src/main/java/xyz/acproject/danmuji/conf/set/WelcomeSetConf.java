@@ -61,7 +61,7 @@ public class WelcomeSetConf implements Serializable {
     public String getWelcomes() {
         return welcomes;
     }
-    public void setFollows(String welcomes) {
+    public void setWelcomes(String welcomes) {
         this.welcomes = welcomes;
     }
     public double getDelaytime() {
