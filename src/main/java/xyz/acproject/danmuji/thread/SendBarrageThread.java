@@ -28,9 +28,11 @@ public class SendBarrageThread extends Thread {
 			if (PublicDataConf.webSocketProxy != null && !PublicDataConf.webSocketProxy.isOpen()) {
 				return;
 			}
+			System.out.println("AAAAA");
 			if (null != PublicDataConf.barrageString && !PublicDataConf.barrageString.isEmpty()
 					&& !StringUtils.isEmpty(PublicDataConf.barrageString.get(0))) {
 				barrageStr = PublicDataConf.barrageString.get(0);
+				System.out.println(barrageStr);
 				int strLength = barrageStr.length();
 				
 				int maxLength = PublicDataConf.USERBARRAGEMESSAGE.getDanmu().getLength();

@@ -62,6 +62,8 @@ public class ParseThankGiftThread extends Thread {
 				} else {
 					if (PublicDataConf.thankGiftConcurrentHashMap.size() > 0) {
 
+						System.out.println("BBBB");
+
 						for (Entry<String, Vector<Gift>> entry : PublicDataConf.thankGiftConcurrentHashMap.entrySet()) {
 							gifts = entry.getValue();
 							for (Iterator<Gift> iterator = gifts.iterator(); iterator.hasNext();) {
@@ -86,10 +88,14 @@ public class ParseThankGiftThread extends Thread {
 									thankGiftStr = StringUtils.replace(thankGiftStr, "%GiftName%", gift.getGiftName());
 									thankGiftStr = StringUtils.replace(thankGiftStr, "%Num%", gift.getNum().toString());
 									thankGiftStr = StringUtils.replace(thankGiftStr, "%Type%", gift.getAction());
+									System.out.println(thankGiftStr);
+									System.out.println(PublicDataConf.sendBarrageThread);
+									System.out.println(PublicDataConf.sendBarrageThread.FLAG);
 									if (PublicDataConf.sendBarrageThread != null
 											&& !PublicDataConf.sendBarrageThread.FLAG) {
 										PublicDataConf.barrageString.add(thankGiftStr);
 										synchronized (PublicDataConf.sendBarrageThread) {
+											System.out.println("DDD");
 											PublicDataConf.sendBarrageThread.notify();
 										}
 									}
@@ -114,6 +120,7 @@ public class ParseThankGiftThread extends Thread {
 									stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
 									thankGiftStr = StringUtils.replace(thankGiftStr, "%Gifts%",
 											stringBuilder.toString());
+									System.out.println(thankGiftStr);
 									stringBuilder.delete(0, stringBuilder.length());
 									if (PublicDataConf.sendBarrageThread != null
 											&& !PublicDataConf.sendBarrageThread.FLAG) {

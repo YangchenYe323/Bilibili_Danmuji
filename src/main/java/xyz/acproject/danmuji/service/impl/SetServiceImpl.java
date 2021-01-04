@@ -115,6 +115,7 @@ public class SetServiceImpl implements SetService {
 		if (PublicDataConf.centerSetConf.getWelcome() == null) {
 			PublicDataConf.centerSetConf.setWelcome(new WelcomeSetConf());
 		}
+		System.out.println(((WelcomeSet)PublicDataConf.centerSetConf.getWelcome().getWelcomeSets().iterator().next()).is_open());
 		hashtable.put("set", base64Encoder.encode(PublicDataConf.centerSetConf.toJson().getBytes()));
 		ProFileTools.write(hashtable, "DanmujiProfile");
 		try {
@@ -126,7 +127,7 @@ public class SetServiceImpl implements SetService {
 			LOGGER.error("读取配置文件失败" + e);
 		}
 
-		//System.out.println(PublicDataConf.centerSetConf.toJson());
+		System.out.println(PublicDataConf.centerSetConf.toJson());
 
 		// 分离cookie
 		if (!StringUtils.isEmpty(PublicDataConf.USERCOOKIE) && PublicDataConf.COOKIE == null) {
@@ -225,10 +226,14 @@ public class SetServiceImpl implements SetService {
 			LOGGER.debug("保存配置文件成功");
 			return;
 		}
+		System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).getUsername());
+		System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).is_open());
 		if (PublicDataConf.ROOMID_SAFE != null && PublicDataConf.ROOMID_SAFE > 0) {
 			centerSetConf.setRoomid(PublicDataConf.ROOMID_SAFE);
 		}
 		Hashtable<String, String> hashtable = new Hashtable<String, String>();
+		centerSetConf.toJson();
+		System.out.println(centerSetConf.toJson());
 		BASE64Encoder base64Encoder = new BASE64Encoder();
 		if (PublicDataConf.USER != null) {
 			hashtable.put(cookies, base64Encoder.encode(PublicDataConf.USERCOOKIE.getBytes()));
@@ -239,7 +244,7 @@ public class SetServiceImpl implements SetService {
 			PublicDataConf.centerSetConf = JSONObject.parseObject(
 					new String(base64Encoder.decode(ProFileTools.read("DanmujiProfile").get("set"))),
 					CenterSetConf.class);
-			System.out.println(PublicDataConf.centerSetConf.getWelcome().getWelcomes());
+			//System.out.println(PublicDataConf.centerSetConf.getWelcome().getWelcomeSets().toString());
 			if (PublicDataConf.ROOMID != null) {
 				holdSet(centerSetConf);
 			}

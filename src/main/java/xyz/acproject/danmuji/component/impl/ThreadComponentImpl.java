@@ -333,11 +333,13 @@ public class ThreadComponentImpl implements ThreadComponent {
 			PublicDataConf.parseWelcomeThread.setDelaytime((long) (1000 * welcomeSetConf.getDelaytime()));
 			PublicDataConf.parseWelcomeThread.start();
 			PublicDataConf.parseWelcomeThread.setTimestamp(System.currentTimeMillis());
-			PublicDataConf.parseWelcomeThread.setWelcomeString(welcomeSetConf.getWelcomes());
+			//PublicDataConf.parseWelcomeThread.setWelcomeString(welcomeSetConf.getWelcomes());
+			PublicDataConf.parseWelcomeThread.setWelcomeSets(welcomeSetConf.getWelcomeSets());
 			PublicDataConf.parseWelcomeThread.setNum(welcomeSetConf.getNum());
 		} else {
 			PublicDataConf.parseWelcomeThread.setTimestamp(System.currentTimeMillis());
-			PublicDataConf.parseWelcomeThread.setWelcomeString(welcomeSetConf.getWelcomes());
+			//PublicDataConf.parseWelcomeThread.setWelcomeString(welcomeSetConf.getWelcomes());
+			PublicDataConf.parseWelcomeThread.setWelcomeSets(welcomeSetConf.getWelcomeSets());
 			PublicDataConf.parseWelcomeThread.setNum(welcomeSetConf.getNum());
 		}
 	}

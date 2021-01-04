@@ -1,11 +1,13 @@
 package xyz.acproject.danmuji.thread;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Vector;
 
 import org.apache.commons.lang3.StringUtils;
 
 import xyz.acproject.danmuji.conf.PublicDataConf;
+import xyz.acproject.danmuji.conf.set.WelcomeSet;
 import xyz.acproject.danmuji.entity.danmu_data.Interact;
 
 /**
@@ -28,6 +30,8 @@ public class ParseWelcomeThread extends Thread {
             put("琳裴奶兔", "欢迎奶0奶兔");
         }
     };
+
+    private HashSet<WelcomeSet> welcomeSets;
 
     @Override
     public void run() {
@@ -86,12 +90,14 @@ public class ParseWelcomeThread extends Thread {
                             }
                             stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
 
-                            System.out.println(stringBuilder.toString());
+                            //System.out.println(stringBuilder.toString());
 
-                            if (welcomeMap.containsKey(stringBuilder.toString())){
-                                welcomeStr = welcomeMap.get(stringBuilder.toString());
+                            //we will only welcome if the user is present in the customized welcome mapping
+                            for (WelcomeSet set: welcomeSets){
+                                if (set.is_open() && set.getUsername().equals(interacts.get(0).getUname())){
+                                    welcomeStr = set.getWelcome_msg();
+                                }
                             }
-
 
                             stringBuilder.delete(0, stringBuilder.length());
 
@@ -165,6 +171,13 @@ public class ParseWelcomeThread extends Thread {
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
+
+    public HashSet<WelcomeSet> getWelcomeSets(){return welcomeSets;}
+
+    public void setWelcomeSets(HashSet<WelcomeSet> welcomeSets){
+        this.welcomeSets = welcomeSets;
+    }
+
 
 
 }

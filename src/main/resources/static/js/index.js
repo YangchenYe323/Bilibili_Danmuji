@@ -123,7 +123,7 @@ $(document).on(
 				"advert" : {},
 				"follow" : {},
 				"reply"  : {"autoReplySets":[]},
-				"welcome": {},
+				"welcome": {"welcomeSets":[]},
 			};
 			set.is_auto = $(".is_autoStart").is(
 			':checked');
@@ -164,17 +164,18 @@ $(document).on(
 				});
 			}
 			if($(".replys-ul li").length>0){
-				var autoReplySet={};
+				var welcomeSet={};
 				$(".replys-ul li").each(function(i,v){
-					autoReplySet.is_open=$(".reply_open").eq(i).is(':checked');
-					autoReplySet.is_accurate=$(".reply_oc").eq(i).is(':checked');
-					var keywords =[];
-					var shields = [];
-					autoReplySet.keywords=method.giftStrings_handle(keywords,$(".reply_keywords").eq(i).val());
-					autoReplySet.shields=method.giftStrings_handle(shields,$(".reply_shields").eq(i).val());
-					autoReplySet.reply=$(".reply_rs").eq(i).val();
-					set.reply.autoReplySets.push(autoReplySet);
-					autoReplySet={};
+					welcomeSet.open=$(".reply_open").eq(i).is(':checked');
+					welcomeSet.username=$(".reply_keywords").val();
+					welcomeSet.welcome_msg=$(".reply_shields").val();
+					set.welcome.welcomeSets.push(welcomeSet);
+					welcomeSet={};
+					//autoReplySet.keywords=method.giftStrings_handle(keywords,$(".reply_keywords").eq(i).val());
+					//autoReplySet.shields=method.giftStrings_handle(shields,$(".reply_shields").eq(i).val());
+					//autoReplySet.reply=$(".reply_rs").eq(i).val();
+					//set.reply.autoReplySets.push(autoReplySet);
+					//autoReplySet={};
 				});
 				
 			}
@@ -204,15 +205,15 @@ $(document).on(
 			set.follow.follows = $(".follow_follows").val();
 			set.follow.delaytime= Number($(".thankfollow_delaytime").val());
 
-			set.welcome.is_open = $(".welcome_is_open").is(':checked');
+			set.welcome.open = $(".welcome_is_open").is(':checked');
             set.welcome.is_live_open = $(".welcome_is_live_open").is(':checked');
-            set.welcome.num = Number($(".welcome_num").val());
-            set.welcome.welcomes = $(".welcome_welcomes").val();
-            set.welcome.delaytime = Number($(".welcome_delaytime").val());
+            set.welcome.num = 1;
+            //set.welcome.welcomes = $(".welcome_welcomes").val();
+            set.welcome.delaytime = 0;
 
-			set.reply.is_open = $(".replys_is_open").is(':checked');
-			set.reply.is_live_open=$(".replys_is_live_open").is(':checked');
-			set.reply.time=Number($(".replys_time").val());
+			//set.reply.is_open = $(".replys_is_open").is(':checked');
+			//set.reply.is_live_open=$(".replys_is_live_open").is(':checked');
+			//set.reply.time=Number($(".replys_time").val());
 			if ($(".follow_is_open").is(':checked')) {
 				if ($(".follow_follows").val().trim() !== null
 						&& $(".follow_follows").val().trim() !== "") {
@@ -228,7 +229,7 @@ $(document).on(
 				}
 			}
 
-			if ($(".welcome_is_open").is(':checked')) {
+			/*if ($(".welcome_is_open").is(':checked')) {
             	if ($(".welcome_welcomes").val().trim() !== null
             			&& $(".welcome_welcomes").val().trim() !== "") {
             	} else {
@@ -241,7 +242,7 @@ $(document).on(
             		c5 = true;
             			method.delay_method(".notice-message", "欢迎数目必须大于0");
             	}
-            }
+            }*/
 
 			if ($(".thankgift_is_open").is(':checked')) {
 				if ($(".thankgift_thank").val().trim() !== null
@@ -346,6 +347,7 @@ $(document).on('click', '#replys-btn', function() {
 	}
 
 });
+
 $(document).on('click', '.btn-close', function() {
 	var is_kong = false;
 	if($(".block-mask").is(":visible")){
@@ -429,18 +431,12 @@ $(document)
 							`<li><input type='checkbox' class='reply_open'
 						data-toggle='tooltip' data-placement='top' title='是否开启'
 						data-original-title='是否开启'>
-						<input type='checkbox' class='reply_oc'
-						data-toggle='tooltip' data-placement='top' title='是否精确匹配'
-						data-original-title='是否精确匹配'> 
-						<input class='small-input reply_keywords' placeholder='关键字'
+						<input class='small-input reply_keywords' placeholder='用户名'
 						data-toggle='tooltip' data-placement='top' title='不能编辑:多个关键字,以中文逗号隔开'
 						data-html='true' data-original-title='关键字' readonly='readonly' disabled>
-						<input class='small-input reply_shields' placeholder='屏蔽词'
+						<input class='small-input reply_shields' placeholder='欢迎语句'
 						data-toggle='tooltip' data-placement='top' title='不能编辑:多个屏蔽词,以中文逗号隔开'
 						data-html='true' data-original-title='关键字' readonly='readonly' disabled>
-						<input class='big-input reply_rs' placeholder='回复语句'
-						data-toggle='tooltip' data-placement='top' title='不能编辑:回复语句,提供%AT%参数,以打印:@提问问题人名称'
-						data-html='true' data-original-title='回复语句' readonly='readonly' disabled>
 						<span class='reply-btns'>
 						<button type='button' class='btn btn-success btn-sm reply_edit'>编辑</button>
 						<button type='button' class='btn btn-danger btn-sm reply_delete'>删除</button>
@@ -448,6 +444,7 @@ $(document)
 					</li>`);
 		});
 $(document).on('click', '.reply_delete', function() {
+    console.log($(this).parent().parent());
 	$(this).parent().parent().remove();
 });
 $(document).on('click', '.shieldgift_delete', function() {
@@ -456,16 +453,12 @@ $(document).on('click', '.shieldgift_delete', function() {
 $(document).on('click', '.reply_edit', function() {
 	var index = $(this).parent().parent().index();
 	var is_open = $(this).parent().parent().children(".reply_open").is(':checked');
-	var is_oc = $(this).parent().parent().children(".reply_oc").is(':checked');
 	var keywords = $(this).parent().parent().children(".reply_keywords").val();
 	var shields = $(this).parent().parent().children(".reply_shields").val();
-	var rs = $(this).parent().parent().children(".reply_rs").val();
 	$(".radd-mask").show();
 	$(".radd-body").find(".reply_open_i").prop('checked', is_open);
-	$(".radd-body").find(".reply_oc_i").prop('checked', is_oc);
 	$(".radd-body").find(".reply_keywords_i").val(keywords);
 	$(".radd-body").find(".reply_shields_i").val(shields);
-	$(".radd-body").find(".reply_rs_i").val(rs);
 	$(".radd-body").find(".reply_delete_i").attr("z-index",index);
 });
 $(document).on('click', '.reply_delete_i', function(e) {
@@ -478,17 +471,13 @@ $(document).on('click', '.btn-closeri', function() {
 	if ($(".radd-mask").is(":visible")) {
 		var index = $(this).parent().parent().find(".reply_delete_i").attr("z-index");
 		var is_open = $(this).parent().parent().find(".reply_open_i").is(':checked');
-		var is_oc = $(this).parent().parent().find(".reply_oc_i").is(':checked');
 		var keywords = $(this).parent().parent().find(".reply_keywords_i").val();
 		var shields = $(this).parent().parent().find(".reply_shields_i").val();
-		var rs = $(this).parent().parent().find(".reply_rs_i").val();
 		$(".replys-ul").children("li").eq(index).find(".reply_open").prop('checked', is_open);
-		$(".replys-ul").children("li").eq(index).find(".reply_oc").prop('checked', is_oc);
 		$(".replys-ul").children("li").eq(index).find(".reply_keywords").val(keywords);
 		$(".replys-ul").children("li").eq(index).find(".reply_shields").val(shields);
-		$(".replys-ul").children("li").eq(index).find(".reply_rs").val(rs);
-		if(keywords===null||keywords===""||rs===null||rs===""){
-			alert("关键字和回复语句都不能为空！！！");
+		if(keywords===null||keywords===""||shields===null||shields===""){
+			alert("用户名和欢迎语句都不能为空！！！");
 			return;
 		}
 		$(".radd-mask").hide();
@@ -733,7 +722,9 @@ const method = {
 					set.thank_gift.shield_status).prop('selected', true);
 			$(".thankgift_shield").val(method.giftStrings_metod(set.thank_gift.giftStrings));
 			method.shieldgifts_each(set.thank_gift.thankGiftRuleSets);
-			method.replys_each(set.reply.autoReplySets);
+			//method.replys_each(set.reply.autoReplySets);
+			console.log(set);
+			method.welcomes_each(set.welcome.welcomeSets);
 			// $(".thankgift_thankGiftRuleSets").val(
 			// set.thank_gift.thankGiftRuleSets);// test
 			$(".thankgift_thank_status").find("option").eq(
@@ -760,17 +751,17 @@ const method = {
 			$(".follow_follows").val(set.follow.follows);
 			$(".thankfollow_delaytime").val(set.follow.delaytime);
 
-			$(".welcome_is_open").prop('checked', set.welcome.is_open);
+			$(".welcome_is_open").prop('checked', set.welcome.open);
             $(".welcome_is_live_open").prop('checked', set.welcome.is_live_open);
-            $(".welcome_num").val(set.welcome.num);
-            $(".welcome_welcomes").val(set.welcome.welcomes);
-            $(".welcome_delaytime").val(set.welcome.delaytime);
+            //$(".welcome_num").val(set.welcome.num);
+            //$(".welcome_welcomes").val(set.welcome.welcomes);
+            //$(".welcome_delaytime").val(set.welcome.delaytime);
 
-			$(".replys_is_open").prop('checked',
+			/*$(".replys_is_open").prop('checked',
 					set.reply.is_open);
 			$(".replys_is_live_open").prop('checked',
 					set.reply.is_live_open);
-			$(".replys_time").val(set.reply.time);
+			$(".replys_time").val(set.reply.time);*/
 			if (Number($(".thankgift_shield_status")
 					.children("option:selected").val()) !== 1) {
 				$(".thankgift_shield").hide();
@@ -975,6 +966,34 @@ const method = {
 			}
 		}
 	},
+	welcomes_each: function(list){
+	    console.log(list);
+	    if(list != null){
+	        $(".replys-ul").children("li").remove();
+	        for(let i in list){
+            	$(".replys-ul").append(
+            					`<li>
+            					    <input type='checkbox' class='reply_open'
+            					    data-toggle='tooltip' data-placement='top' title='是否开启'
+            					    data-original-title='是否开启'>
+            					    <input class='small-input reply_keywords' placeholder='用户名'
+            					    data-toggle='tooltip' data-placement='top' title='不能编辑:多个关键字,以中文逗号隔开'
+            					    data-html='true' data-original-title='关键字' readonly='readonly' disabled>
+            					    <input class='small-input reply_shields' placeholder='欢迎语句'
+            					    data-toggle='tooltip' data-placement='top' title='不能编辑:多个屏蔽词,以中文逗号隔开'
+            					    data-html='true' data-original-title='关键字' readonly='readonly' disabled>
+            					    <span class='reply-btns'>
+            					        <button type='button' class='btn btn-success btn-sm reply_edit'>编辑</button>
+            					        <button type='button' class='btn btn-danger btn-sm reply_delete'>删除</button>
+            					    </span>
+            				    </li>`);
+            				$(".reply_open").eq(i).prop('checked', list[i]._open);
+                            $(".reply_keywords").eq(i).val(list[i].username);
+                            $(".reply_shields").eq(i).val(list[i].welcome_msg);
+            }
+	    }
+	},
+
 	getIp : function (){
 		var ip =null;
 		$.ajax({

@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import xyz.acproject.danmuji.conf.CenterSetConf;
 import xyz.acproject.danmuji.conf.PublicDataConf;
+import xyz.acproject.danmuji.conf.set.WelcomeSet;
 import xyz.acproject.danmuji.entity.login_data.LoginData;
 import xyz.acproject.danmuji.entity.login_data.Qrcode;
 import xyz.acproject.danmuji.http.HttpOtherData;
@@ -188,12 +189,16 @@ public class WebController {
 		try {
 			System.out.println(set);
 			CenterSetConf centerSetConf = JSONObject.parseObject(set, CenterSetConf.class);
-			System.out.println(centerSetConf.getFollow().getFollows());
-			System.out.println(centerSetConf.getWelcome().getWelcomes());
+			System.out.println(centerSetConf.toJson());
+			//System.out.println(centerSetConf.getFollow().getFollows());
+			//System.out.println(centerSetConf.getWelcome().getWelcomeSets());
+			System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).getUsername());
+			System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).is_open());
 			checkService.changeSet(centerSetConf);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			return Response.success(false, req);
 		}
 		return Response.success(true, req);

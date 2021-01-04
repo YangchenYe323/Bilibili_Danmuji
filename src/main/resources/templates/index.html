@@ -479,16 +479,6 @@
 									</div>
 									<div
 											class="custom-control-inline small-input-wrap input-margin-s">
-										<input type="number" min="1" class="small-input welcome_num"
-											   οninput="if(value.length>5)value=value.slice(0,5)"
-											   style="ime-mode: Disabled"
-											   onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
-											   placeholder="多少人" data-toggle="tooltip" data-placement="top"
-											   title="" data-html="true" data-original-title="每次欢迎多少个人"
-											   value="1">
-									</div>
-									<div
-											class="custom-control-inline small-input-wrap input-margin-s">
 										<input type="number" min="0"
 											   class="small-input welcome_delaytime"
 											   placeholder="delay time(s)" data-toggle="tooltip"
@@ -496,52 +486,8 @@
 											   data-original-title="延迟多少秒发送 <br/>最小值为0<br/><span class='red-font'>PS:可统计延时内的关注,一旦延时内有新关注就会重新刷新延时，推荐在多人感谢下使用</span>"
 											   value="0">
 									</div>
-								</div>
-								<div class="form-group footer-set">
-									<!-- 									<input class="form-control follow_follows"
-										placeholder="谢谢 %uNames% 的关注~" data-toggle="tooltip"
-										data-placement="top" title="" data-html="true"
-										data-original-title="感谢语，可选参数<br/> %uNames%关注人名称集合"> -->
-									<textarea class="form-control input-margin-b welcome_welcomes"
-											  placeholder="欢迎 %uNames% ～" data-toggle="tooltip"
-											  data-html="true" data-placement="top" title=""
-											  data-original-title="多条语句时候注意以回车为分割每条语句,多条语句会随机发送其中一条<br/>欢迎语，可选参数<br/> %uNames%关注人名称集合"></textarea>
-								</div>
-							</div>
-							<div class="input-group mb-1">
-								<h5>自动回复姬设置(需要登录)</h5>
-							</div>
-							<div class="input-group mb-3 autoReply-set">
-								<div class="header-set">
-									<div class="custom-control custom-radio custom-control-inline">
-										<label class="form-check-label"> <input
-											type="checkbox" class="form-check-input replys_is_open">
-											<span class="_description" data-toggle="tooltip"
-											data-placement="top" title="" data-html="true"
-											data-original-title="是否打开">开关</span>
-										</label>
-									</div>
-									<div class="custom-control custom-radio custom-control-inline">
-										<label class="form-check-label"> <input
-											type="checkbox" class="form-check-input replys_is_live_open">
-											<span class="_description" data-toggle="tooltip"
-											data-placement="top" title="" data-html="true"
-											data-original-title="仅在直播中有效">直播</span>
-										</label>
-									</div>
-									<div
-										class="custom-control-inline small-input-wrap input-margin-s">
-										<input type="number" min="1" class="small-input replys_time"
-											οninput="if(value.length>5)value=value.slice(0,5)"
-											style="ime-mode: Disabled"
-											onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
-											placeholder="间隔" data-toggle="tooltip" data-placement="top"
-											title="" data-html="true"
-											data-original-title="<span class='red-font'>间隔多少秒才识别弹幕并自动回复</span><br/>默认为3秒"
-											value="3">
-									</div>
 									<div class="custom-control-inline">
-										<button class="btn btn-primary btn-sm" id="replys-btn">自定义回复设置</button>
+										<button class="btn btn-primary btn-sm" id="replys-btn">自定义欢迎规则</button>
 									</div>
 								</div>
 							</div>
@@ -671,9 +617,9 @@
 	<div class="replys-mask">
 		<div class="replys-wrap">
 			<div class="t">
-				请自定义弹幕姬自动回复规则<a href="javascript:;" class="replys_add"
+				请自定义弹幕姬欢迎规则<a href="javascript:;" class="replys_add"
 					data-toggle="tooltip" data-placement="top" title=""
-					data-html="true" data-original-title="新增回复规则">⊕</a> <i
+					data-html="true" data-original-title="新增欢迎规则">⊕</a> <i
 					class="btn-closer"> </i>
 			</div>
 			<div class="con">
@@ -694,21 +640,14 @@
 						<li><input type="checkbox" class="reply_open_i"
 							data-toggle="tooltip" data-placement="top" title="是否开启"
 							data-original-title="是否开启"></li>
-						<li><input type="checkbox" class="reply_oc_i"
-							data-toggle="tooltip" data-placement="top" title=""
-							data-original-title="是否精确匹配，仅在只有一个关键字且没有屏蔽词的情况下使用(也可以在 含有 || 号条件下使用)"></li>
-						<li><textarea class="reply_keywords_i" placeholder="关键字"
+						<li><textarea class="reply_keywords_i" placeholder="要欢迎的B站用户名"
 								data-toggle="tooltip" data-placement="top" title=""
 								data-html="true"
 								data-original-title="关键字既为当弹幕包含所有关键字时才回复；多个关键字时请以中文逗号隔开，<span class='orange-font'>想实现满足条件A或条件B 发送内容C的功能请在关键字中用 || 号分割或者不同关键字(即使在多关键字情况下依旧生效)</span><br/><span class='red-font'>注意不能为空</span>"></textarea></li>
-						<li><textarea class="reply_shields_i" placeholder="屏蔽词"
+						<li><textarea class="reply_shields_i" placeholder="欢迎语句"
 								data-toggle="tooltip" data-placement="top"
 								title="屏蔽词既为当弹幕包含有一项或者多项屏蔽词时则不回复；多个屏蔽词时请以中文逗号隔开,为空既为不开启屏蔽词"
 								data-html="true" data-original-title="屏蔽词"></textarea></li>
-						<li><textarea class="reply_rs_i" placeholder="回复语句"
-								data-toggle="tooltip" data-placement="top"
-								title="回复语句<br/>1：参数%NAME%以替换提问的人的名字<br/>2：参数%BLOCK%表示该功能为禁言，将被替换为空,参数{{time}}定义被禁言时间,单位为整数小时，在有%BLOCK%参数下才生效，将被替换为空，例如要禁言一小时：<span class='red-font'>%BLOCK%{{1}}</span> ；<span class='red-font'>当只有这两个参数，不会发送回复弹幕，只会执行禁言，这两个参数 最终都会在回复语句中消除</span>，time最大720,最小1<br/>3：参数%FANS%以替换现在连接房间的最新关注数目<br/>4：参数%TIME%以替换当前时间<br/>5：参数%LIVETIME%以替换当前房间直播时间<br/>6：参数%HOT%以替换当前房间人气值"
-								data-html="true" data-original-title="回复语句"></textarea></li>
 						<li><button type="button"
 								class="btn btn-danger btn-sm reply_delete_i">删除</button></li>
 					</ul>
@@ -716,6 +655,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="block-mask" style="display: none;">
 		<div class="block-wrap">
 			<div class="t">
