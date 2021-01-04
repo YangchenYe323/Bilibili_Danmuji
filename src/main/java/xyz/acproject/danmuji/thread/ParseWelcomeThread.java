@@ -99,10 +99,9 @@ public class ParseWelcomeThread extends Thread {
                                 }
                             }
 
-                            stringBuilder.delete(0, stringBuilder.length());
 
                             if (PublicDataConf.sendBarrageThread != null
-                                    && !PublicDataConf.sendBarrageThread.FLAG) {
+                                    && !PublicDataConf.sendBarrageThread.FLAG && welcomeStr != null) {
                                 PublicDataConf.barrageString.add(welcomeStr);
                                 synchronized (PublicDataConf.sendBarrageThread) {
                                     PublicDataConf.sendBarrageThread.notify();

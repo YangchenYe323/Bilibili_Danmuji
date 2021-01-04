@@ -29,6 +29,9 @@ public class SendBarrageThread extends Thread {
 				return;
 			}
 			System.out.println("AAAAA");
+			System.out.println(PublicDataConf.barrageString);
+			if (PublicDataConf.barrageString.size() > 0)
+				System.out.println(PublicDataConf.barrageString.get(0));
 			if (null != PublicDataConf.barrageString && !PublicDataConf.barrageString.isEmpty()
 					&& !StringUtils.isEmpty(PublicDataConf.barrageString.get(0))) {
 				barrageStr = PublicDataConf.barrageString.get(0);
@@ -46,6 +49,7 @@ public class SendBarrageThread extends Thread {
 							}
 						} catch (Exception e) {
 //								LOGGER.error("发送弹幕线程抛出:" + e);
+							e.printStackTrace();
 							// TODO: handle exception
 						}
 //						} else {
@@ -56,6 +60,7 @@ public class SendBarrageThread extends Thread {
 							Thread.sleep(1455);
 						} catch (InterruptedException e) {
 							// TODO 自动生成的 catch 块
+							e.printStackTrace();
 //							LOGGER.debug("发送弹幕线程关闭:" + e);
 						}
 //						if (i > 1 && i < num) {
@@ -76,6 +81,7 @@ public class SendBarrageThread extends Thread {
 						
 					} catch (Exception e) {
 //							LOGGER.error("发送弹幕线程抛出v:" + e);
+						e.printStackTrace();
 						// TODO: handle exception
 					}
 //
@@ -96,7 +102,7 @@ public class SendBarrageThread extends Thread {
 					try {
 						PublicDataConf.sendBarrageThread.wait();
 					} catch (InterruptedException e) {
-						// TODO 自动生成的 catch 块
+						// TODO 自动生成的 catch
 //						LOGGER.debug("发送弹幕线程关闭:" + e);
 					}
 				}

@@ -89,8 +89,8 @@ public class ParseThankGiftThread extends Thread {
 									thankGiftStr = StringUtils.replace(thankGiftStr, "%Num%", gift.getNum().toString());
 									thankGiftStr = StringUtils.replace(thankGiftStr, "%Type%", gift.getAction());
 									System.out.println(thankGiftStr);
-									System.out.println(PublicDataConf.sendBarrageThread);
-									System.out.println(PublicDataConf.sendBarrageThread.FLAG);
+									//System.out.println(PublicDataConf.sendBarrageThread);
+									//System.out.println(PublicDataConf.sendBarrageThread.FLAG);
 									if (PublicDataConf.sendBarrageThread != null
 											&& !PublicDataConf.sendBarrageThread.FLAG) {
 										PublicDataConf.barrageString.add(thankGiftStr);

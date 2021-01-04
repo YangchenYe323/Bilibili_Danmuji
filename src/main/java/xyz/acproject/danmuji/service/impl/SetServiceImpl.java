@@ -115,7 +115,7 @@ public class SetServiceImpl implements SetService {
 		if (PublicDataConf.centerSetConf.getWelcome() == null) {
 			PublicDataConf.centerSetConf.setWelcome(new WelcomeSetConf());
 		}
-		System.out.println(((WelcomeSet)PublicDataConf.centerSetConf.getWelcome().getWelcomeSets().iterator().next()).is_open());
+		//System.out.println(((WelcomeSet)PublicDataConf.centerSetConf.getWelcome().getWelcomeSets().iterator().next()).is_open());
 		hashtable.put("set", base64Encoder.encode(PublicDataConf.centerSetConf.toJson().getBytes()));
 		ProFileTools.write(hashtable, "DanmujiProfile");
 		try {
@@ -226,8 +226,8 @@ public class SetServiceImpl implements SetService {
 			LOGGER.debug("保存配置文件成功");
 			return;
 		}
-		System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).getUsername());
-		System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).is_open());
+		//System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).getUsername());
+		//System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).is_open());
 		if (PublicDataConf.ROOMID_SAFE != null && PublicDataConf.ROOMID_SAFE > 0) {
 			centerSetConf.setRoomid(PublicDataConf.ROOMID_SAFE);
 		}

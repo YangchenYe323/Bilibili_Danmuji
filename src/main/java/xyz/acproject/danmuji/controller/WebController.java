@@ -192,8 +192,8 @@ public class WebController {
 			System.out.println(centerSetConf.toJson());
 			//System.out.println(centerSetConf.getFollow().getFollows());
 			//System.out.println(centerSetConf.getWelcome().getWelcomeSets());
-			System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).getUsername());
-			System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).is_open());
+			//System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).getUsername());
+			//System.out.println(((WelcomeSet)centerSetConf.getWelcome().getWelcomeSets().iterator().next()).is_open());
 			checkService.changeSet(centerSetConf);
 			
 		} catch (Exception e) {
