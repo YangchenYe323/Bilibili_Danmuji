@@ -3,6 +3,8 @@ $(function() {
 	var time;
 	var socket = null;
 	var sliceh =0;
+	//send heartbeat packet to the server
+	//TODO: Figure out why this is necessary
 	time = setInterval(heartBeat, 30000);
 	function heartBeat() {
 		"use strict";

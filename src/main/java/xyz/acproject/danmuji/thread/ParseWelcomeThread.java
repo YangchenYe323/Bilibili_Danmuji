@@ -1,5 +1,6 @@
 package xyz.acproject.danmuji.thread;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,11 @@ public class ParseWelcomeThread extends Thread {
     private Short num = 1;
     private Long delaytime = 3000L;
     private Long timestamp;
+    private HashMap<String, String> welcomeMap = new HashMap<String, String>(){
+        {
+            put("琳裴奶兔", "欢迎奶0奶兔");
+        }
+    };
 
     @Override
     public void run() {
@@ -46,9 +52,9 @@ public class ParseWelcomeThread extends Thread {
                 } else {
                     //do something
                     //System.out.println("Thread");
-                    if(PublicDataConf.welcomeInteracts.size()>0) {
+                    if(PublicDataConf.welcomeInteracts.size() > 0) {
                         //System.out.println("Thread");
-                        interacts.addAll(PublicDataConf.welcomeInteracts);
+                        /*interacts.addAll(PublicDataConf.welcomeInteracts);
                         for (int i = 0; i < interacts.size(); i += getNum()) {
                             for (int j = i; j < i + getNum(); j++) {
                                 if (j >= interacts.size()) {
@@ -68,7 +74,39 @@ public class ParseWelcomeThread extends Thread {
                                 }
                             }
                             welcomeStr = null;
+                        }*/
+
+                        interacts.addAll(PublicDataConf.welcomeInteracts);
+                        for (int i = 0; i < interacts.size(); i += getNum()) {
+                            for (int j = i; j < i + getNum(); j++) {
+                                if (j >= interacts.size()) {
+                                    break;
+                                }
+                                stringBuilder.append(interacts.get(j).getUname()).append(",");
+                            }
+                            stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
+
+                            System.out.println(stringBuilder.toString());
+
+                            if (welcomeMap.containsKey(stringBuilder.toString())){
+                                welcomeStr = welcomeMap.get(stringBuilder.toString());
+                            }
+
+
+                            stringBuilder.delete(0, stringBuilder.length());
+
+                            if (PublicDataConf.sendBarrageThread != null
+                                    && !PublicDataConf.sendBarrageThread.FLAG) {
+                                PublicDataConf.barrageString.add(welcomeStr);
+                                synchronized (PublicDataConf.sendBarrageThread) {
+                                    PublicDataConf.sendBarrageThread.notify();
+                                }
+                            }
+                            welcomeStr = null;
                         }
+
+
+
                     }
                     interacts.clear();
                     PublicDataConf.welcomeInteracts.clear();

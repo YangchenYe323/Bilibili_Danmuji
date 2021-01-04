@@ -1,6 +1,7 @@
 package xyz.acproject.danmuji.conf.set;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * @Classname WelcomeSetConf
@@ -18,6 +19,12 @@ public class WelcomeSetConf implements Serializable {
 
     private boolean is_open = true;
     private boolean is_live_open = false;
+    //map username to customized welcome message
+    private HashMap<String, String> welcomeMap = new HashMap<String, String>(){
+        {
+            put("琳裴奶兔", "欢迎奶兔酱");
+        }
+    };
 
     //num: how many user names the barrage could contain in one message
     short num = 1;
