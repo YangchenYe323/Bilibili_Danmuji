@@ -167,8 +167,8 @@ $(document).on(
 				var welcomeSet={};
 				$(".replys-ul li").each(function(i,v){
 					welcomeSet.open=$(".reply_open").eq(i).is(':checked');
-					welcomeSet.username=$(".reply_keywords").val();
-					welcomeSet.welcome_msg=$(".reply_shields").val();
+					welcomeSet.username=$(".reply_keywords").eq(i).val();
+					welcomeSet.welcome_msg=$(".reply_shields").eq(i).val();
 					set.welcome.welcomeSets.push(welcomeSet);
 					welcomeSet={};
 					//autoReplySet.keywords=method.giftStrings_handle(keywords,$(".reply_keywords").eq(i).val());
