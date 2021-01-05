@@ -25,11 +25,6 @@ public class ParseWelcomeThread extends Thread {
     private Short num = 1;
     private Long delaytime = 3000L;
     private Long timestamp;
-    private HashMap<String, String> welcomeMap = new HashMap<String, String>(){
-        {
-            put("琳裴奶兔", "欢迎奶0奶兔");
-        }
-    };
 
     private HashSet<WelcomeSet> welcomeSets;
 

@@ -232,8 +232,8 @@ public class SetServiceImpl implements SetService {
 			centerSetConf.setRoomid(PublicDataConf.ROOMID_SAFE);
 		}
 		Hashtable<String, String> hashtable = new Hashtable<String, String>();
-		centerSetConf.toJson();
-		System.out.println(centerSetConf.toJson());
+		//centerSetConf.toJson();
+		//System.out.println(centerSetConf.toJson());
 		BASE64Encoder base64Encoder = new BASE64Encoder();
 		if (PublicDataConf.USER != null) {
 			hashtable.put(cookies, base64Encoder.encode(PublicDataConf.USERCOOKIE.getBytes()));
