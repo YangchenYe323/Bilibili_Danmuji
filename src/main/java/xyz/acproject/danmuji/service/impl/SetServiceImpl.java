@@ -127,7 +127,7 @@ public class SetServiceImpl implements SetService {
 			LOGGER.error("读取配置文件失败" + e);
 		}
 
-		System.out.println(PublicDataConf.centerSetConf.toJson());
+		//System.out.println(PublicDataConf.centerSetConf.toJson());
 
 		// 分离cookie
 		if (!StringUtils.isEmpty(PublicDataConf.USERCOOKIE) && PublicDataConf.COOKIE == null) {
