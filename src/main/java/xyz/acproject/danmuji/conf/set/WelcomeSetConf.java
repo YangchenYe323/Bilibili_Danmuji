@@ -1,7 +1,6 @@
 package xyz.acproject.danmuji.conf.set;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -19,7 +18,7 @@ public class WelcomeSetConf implements Serializable {
     private static final long serialVersionUID = -418947096102064217L;
 
     private HashSet<WelcomeSet> welcomeSets;
-    private boolean open = true;
+    private boolean is_open = true;
     private boolean is_live_open = false;
     //map username to customized welcome message
     /*private HashMap<String, String> welcomeMap = new HashMap<String, String>(){
@@ -40,11 +39,11 @@ public class WelcomeSetConf implements Serializable {
         super();
     }
 
-    public boolean isOpen() {
-        return open;
+    public boolean isIs_open() {
+        return is_open;
     }
     public void setIs_open(boolean open) {
-        this.open = open;
+        this.is_open = open;
     }
     public boolean isIs_live_open() {
         return is_live_open;

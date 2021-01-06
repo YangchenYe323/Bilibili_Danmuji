@@ -11,7 +11,7 @@ public class WelcomeSet implements Serializable {
 
     private static final long serialVersionUID = 562887876061232887L;
 
-    private boolean open = false;
+    private boolean is_open = false;
     private String username = null;
     private String welcome_msg = null;
 
@@ -20,15 +20,15 @@ public class WelcomeSet implements Serializable {
         // TODO 自动生成的构造函数存根
     }
 
-    public WelcomeSet(boolean open, String username, String welcome_msg){
+    public WelcomeSet(boolean is_open, String username, String welcome_msg){
         super();
-        this.open = open;
+        this.is_open = is_open;
         this.username = username;
         this.welcome_msg = welcome_msg;
     }
 
-    public boolean is_open(){return open;}
-    public void setOpen(boolean open){this.open = open;}
+    public boolean isIs_open(){return is_open;}
+    public void setIs_open(boolean is_open){this.is_open = is_open;}
     public String getUsername(){return username;}
     public void setUsername(String username){this.username = username;}
     public String getWelcome_msg(){return welcome_msg;}

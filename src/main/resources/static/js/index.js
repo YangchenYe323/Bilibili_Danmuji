@@ -166,7 +166,7 @@ $(document).on(
 			if($(".replys-ul li").length>0){
 				var welcomeSet={};
 				$(".replys-ul li").each(function(i,v){
-					welcomeSet.open=$(".reply_open").eq(i).is(':checked');
+					welcomeSet.is_open=$(".reply_open").eq(i).is(':checked');
 					welcomeSet.username=$(".reply_keywords").eq(i).val();
 					welcomeSet.welcome_msg=$(".reply_shields").eq(i).val();
 					set.welcome.welcomeSets.push(welcomeSet);
@@ -205,7 +205,7 @@ $(document).on(
 			set.follow.follows = $(".follow_follows").val();
 			set.follow.delaytime= Number($(".thankfollow_delaytime").val());
 
-			set.welcome.open = $(".welcome_is_open").is(':checked');
+			set.welcome.is_open = $(".welcome_is_open").is(':checked');
             set.welcome.is_live_open = $(".welcome_is_live_open").is(':checked');
             set.welcome.num = 1;
             //set.welcome.welcomes = $(".welcome_welcomes").val();
@@ -341,6 +341,7 @@ $(document).on('click', '#gift-shield-btn', function() {
 	}
 
 });
+//TODO: field rename
 $(document).on('click', '#replys-btn', function() {
 	if (!$(".replys-mask").is(":visible")) {
 		$(".replys-mask").show();
@@ -366,6 +367,7 @@ $(document).on('click', '.btn-close', function() {
 	}
 });
 
+//TODO: rename
 $(document).on('click', '.btn-closer', function() {
 	var is_hide = true;
 	if ($(".replys-mask").is(":visible")) {
@@ -421,6 +423,8 @@ $(document)
 									<td><button type='button' class='btn btn-danger btn-sm shieldgift_delete'>删除</button></td>
 									</tr>`);
 				});
+
+//TODO: rename
 $(document)
 .on(
 		'click',
@@ -443,6 +447,8 @@ $(document)
 						</span>
 					</li>`);
 		});
+
+//TODO: rename
 $(document).on('click', '.reply_delete', function() {
     console.log($(this).parent().parent());
 	$(this).parent().parent().remove();
@@ -450,6 +456,8 @@ $(document).on('click', '.reply_delete', function() {
 $(document).on('click', '.shieldgift_delete', function() {
 	$(this).parent().parent().remove();
 });
+
+//TODO: rename
 $(document).on('click', '.reply_edit', function() {
 	var index = $(this).parent().parent().index();
 	var is_open = $(this).parent().parent().children(".reply_open").is(':checked');
@@ -471,6 +479,7 @@ $(document).on('click', '.btn-closeri', function() {
 	if ($(".radd-mask").is(":visible")) {
 		var index = $(this).parent().parent().find(".reply_delete_i").attr("z-index");
 		var is_open = $(this).parent().parent().find(".reply_open_i").is(':checked');
+		console.log(is_open);
 		var keywords = $(this).parent().parent().find(".reply_keywords_i").val();
 		var shields = $(this).parent().parent().find(".reply_shields_i").val();
 		$(".replys-ul").children("li").eq(index).find(".reply_open").prop('checked', is_open);
@@ -665,6 +674,7 @@ const method = {
 				}
 			}
 		});
+		console.log(json);
 		return json;
 	},
 	sendSet : function(set) {
@@ -751,7 +761,7 @@ const method = {
 			$(".follow_follows").val(set.follow.follows);
 			$(".thankfollow_delaytime").val(set.follow.delaytime);
 
-			$(".welcome_is_open").prop('checked', set.welcome.open);
+			$(".welcome_is_open").prop('checked', set.welcome.is_open);
             $(".welcome_is_live_open").prop('checked', set.welcome.is_live_open);
             //$(".welcome_num").val(set.welcome.num);
             //$(".welcome_welcomes").val(set.welcome.welcomes);
@@ -987,7 +997,7 @@ const method = {
             					        <button type='button' class='btn btn-danger btn-sm reply_delete'>删除</button>
             					    </span>
             				    </li>`);
-            				$(".reply_open").eq(i).prop('checked', list[i]._open);
+            				$(".reply_open").eq(i).prop('checked', list[i].is_open);
                             $(".reply_keywords").eq(i).val(list[i].username);
                             $(".reply_shields").eq(i).val(list[i].welcome_msg);
             }

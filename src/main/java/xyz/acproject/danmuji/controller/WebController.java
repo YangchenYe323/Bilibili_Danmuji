@@ -180,7 +180,11 @@ public class WebController {
 	@ResponseBody
 	@RequestMapping(value = "/getSet", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public Response<?> getSet(HttpServletRequest req) {
+		System.out.println("------------------------------------------------");
+		System.out.println(PublicDataConf.centerSetConf.toJson());
+		System.out.println("------------------------------------------------");
 		return Response.success(PublicDataConf.centerSetConf, req);
+
 	}
 
 	@ResponseBody

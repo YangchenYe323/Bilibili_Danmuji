@@ -160,14 +160,14 @@ public class ParseSetStatusTools {
 				if(live_status!=1) {
 					messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, false);
 				}else {
-					if (centerSetConf.getWelcome().isOpen()) {
+					if (centerSetConf.getWelcome().isIs_open()) {
 						messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, true);
 					} else {
 						messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, false);
 					}
 				}
 			}else {
-				if (centerSetConf.getWelcome().isOpen()) {
+				if (centerSetConf.getWelcome().isIs_open()) {
 					//System.out.println("Welcome Open");
 					messageConcurrentHashMap.put(ShieldMessage.is_welcome_thank, true);
 				} else {

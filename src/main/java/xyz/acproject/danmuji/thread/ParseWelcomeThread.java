@@ -1,6 +1,5 @@
 package xyz.acproject.danmuji.thread;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
 
@@ -89,7 +88,7 @@ public class ParseWelcomeThread extends Thread {
 
                             //we will only welcome if the user is present in the customized welcome mapping
                             for (WelcomeSet set: welcomeSets){
-                                if (set.is_open() && set.getUsername().equals(interacts.get(0).getUname())){
+                                if (set.isIs_open() && set.getUsername().equals(interacts.get(0).getUname())){
                                     welcomeStr = set.getWelcome_msg();
                                 }
                             }
