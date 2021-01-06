@@ -433,10 +433,10 @@ $(document)
 						data-original-title='是否开启'>
 						<input class='small-input reply_keywords' placeholder='用户名'
 						data-toggle='tooltip' data-placement='top' title='不能编辑:多个关键字,以中文逗号隔开'
-						data-html='true' data-original-title='关键字' readonly='readonly' disabled>
+						data-html='true' data-original-title='用户名' readonly='readonly' disabled>
 						<input class='small-input reply_shields' placeholder='欢迎语句'
 						data-toggle='tooltip' data-placement='top' title='不能编辑:多个屏蔽词,以中文逗号隔开'
-						data-html='true' data-original-title='关键字' readonly='readonly' disabled>
+						data-html='true' data-original-title='欢迎语句' readonly='readonly' disabled>
 						<span class='reply-btns'>
 						<button type='button' class='btn btn-success btn-sm reply_edit'>编辑</button>
 						<button type='button' class='btn btn-danger btn-sm reply_delete'>删除</button>
