@@ -2,6 +2,7 @@ package xyz.acproject.danmuji.thread.core;
 
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,11 +24,7 @@ import xyz.acproject.danmuji.controller.DanmuWebsocket;
 import xyz.acproject.danmuji.entity.Welcome.WelcomeGuard;
 import xyz.acproject.danmuji.entity.Welcome.WelcomeVip;
 import xyz.acproject.danmuji.entity.auto_reply.AutoReply;
-import xyz.acproject.danmuji.entity.danmu_data.Barrage;
-import xyz.acproject.danmuji.entity.danmu_data.BlockMessage;
-import xyz.acproject.danmuji.entity.danmu_data.Gift;
-import xyz.acproject.danmuji.entity.danmu_data.Guard;
-import xyz.acproject.danmuji.entity.danmu_data.Interact;
+import xyz.acproject.danmuji.entity.danmu_data.*;
 import xyz.acproject.danmuji.entity.high_level_danmu.Hbarrage;
 import xyz.acproject.danmuji.entity.superchat.SuperChat;
 import xyz.acproject.danmuji.enums.ShieldGift;
@@ -99,6 +96,7 @@ public class ParseMessageThread extends Thread{
 				message = PublicDataConf.resultStrs.get(0);
 				try {
 					jsonObject = JSONObject.parseObject(message);
+					//System.out.println(jsonObject);
 				} catch (Exception e) {
 					// TODO: handle exception
 					LOGGER.debug("抛出解析异常:" + e);
@@ -393,28 +391,6 @@ public class ParseMessageThread extends Thread{
 							gift.setAction("赠送");
 							gift.setCoin_type((short) 1);
 							gift.setUname(guard.getUsername());
-							gift.setUid(guard.getUid());
-							gift = ShieldGiftTools.shieldGift(gift,
-									ParseSetStatusTools.getGiftShieldStatus(getThankGiftSetConf().getShield_status()),
-									getThankGiftSetConf().getGiftStrings(), null);
-							if (gift != null) {
-								try {
-									parseGiftSetting(gift);
-								} catch (Exception e) {
-									// TODO 自动生成的 catch 块
-									e.printStackTrace();
-								}
-							}
-						}
-					}
-					if (getMessageControlMap().get(ShieldMessage.is_guard_local) != null
-							&& getMessageControlMap().get(ShieldMessage.is_guard_local)) {
-						guard = JSONObject.parseObject(jsonObject.getString("data"), Guard.class);
-						Hashtable<Long, String> guardHashtable_local = GuardFileTools.read();
-						if (guardHashtable_local == null) {
-							guardHashtable_local = new Hashtable<Long, String>();
-						}
-						if (!guardHashtable_local.containsKey(guard.getUid())) {
 							GuardFileTools.write(guard.getUid() + "," + guard.getUsername());
 							if (getMessageControlMap().get(ShieldMessage.is_guard_report) != null
 									&& getMessageControlMap().get(ShieldMessage.is_guard_report)) {
@@ -648,6 +624,65 @@ public class ParseMessageThread extends Thread{
 
 				// 舰长进入直播间消息
 				case "ENTRY_EFFECT":
+
+					//控制台打印消息
+					if(getMessageControlMap().get(ShieldMessage.is_welcome) != null
+							&& getMessageControlMap().get(ShieldMessage.is_welcome)) {
+
+						EntryEffect entry = JSONObject.parseObject(jsonObject.getString("data"), EntryEffect.class);
+						stringBuilder.append(JodaTimeUtils.getCurrentTimeString());
+
+						System.out.println(entry.getCopy_writing());
+						System.out.println(entry.getUname());
+						System.out.println(entry.getPrivilege_type());
+
+						switch(entry.getPrivilege_type()){
+							case 3:
+								stringBuilder.append(":欢迎舰长:");
+								break;
+							case 2:
+								stringBuilder.append(":欢迎提督:");
+								break;
+							case 1:
+								stringBuilder.append(":欢迎总督:");
+								break;
+						}
+
+						stringBuilder.append(entry.getUname());
+						stringBuilder.append(" 进入直播间");
+
+						if (getMessageControlMap().get(ShieldMessage.is_cmd) != null
+								&& getMessageControlMap().get(ShieldMessage.is_cmd)) {
+							System.out.println(stringBuilder.toString());
+						}
+						try {
+							danmuWebsocket.sendMessage(WsPackage.toJson("welcomeGuard", (short)0, welcomeGuard));
+						} catch (Exception e) {
+							// TODO 自动生成的 catch 块
+							e.printStackTrace();
+						}
+						if (PublicDataConf.logThread != null && !PublicDataConf.logThread.FLAG) {
+							PublicDataConf.logString.add(stringBuilder.toString());
+							synchronized (PublicDataConf.logThread) {
+								PublicDataConf.logThread.notify();
+							}
+						}
+						stringBuilder.delete(0, stringBuilder.length());
+					}
+
+					//发送弹幕
+					if(getMessageControlMap().get(ShieldMessage.is_welcome_thank) != null
+							&& getMessageControlMap().get(ShieldMessage.is_welcome_thank)){
+
+						EntryEffect entryEffect = JSONObject.parseObject(jsonObject.getString("data"), EntryEffect.class);
+						try{
+							parseWelcomeSetting(entryEffect);
+						} catch(Exception e){
+							e.printStackTrace();
+						}
+
+					}
+
 //					LOGGER.debug("舰长大大进入直播间消息推送:::" + message);
 					break;
 
@@ -1119,7 +1154,6 @@ public class ParseMessageThread extends Thread{
 						}
 					}
 
-
 					//欢迎
 					if(getMessageControlMap().get(ShieldMessage.is_welcome) != null
 						&& getMessageControlMap().get(ShieldMessage.is_welcome)){
@@ -1343,6 +1377,19 @@ public class ParseMessageThread extends Thread{
 					System.out.println("Null Barrage Thread");
 				if (PublicDataConf.parseWelcomeThread == null)
 					System.out.println("Null Welcome Thread");
+			}
+		}
+	}
+
+	public synchronized void parseWelcomeSetting(EntryEffect entryEffect) throws Exception{
+		if (entryEffect != null && !StringUtils.isEmpty(PublicDataConf.USERCOOKIE)){
+			if(PublicDataConf.sendBarrageThread != null && PublicDataConf.parseWelcomeThread != null){
+				if (!PublicDataConf.sendBarrageThread.FLAG && !PublicDataConf.parseWelcomeThread.FLAG){
+					Interact i = new Interact();
+					i.setUname(entryEffect.getUname());
+					PublicDataConf.welcomeInteracts.add(i);
+					delayWelcomeTimeSetting();
+				}
 			}
 		}
 	}

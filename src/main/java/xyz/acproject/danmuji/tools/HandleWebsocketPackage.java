@@ -46,8 +46,8 @@ public class HandleWebsocketPackage {
 			int data_ver = barrageHeadHandle.getPackageVersion();
 			int data_type = barrageHeadHandle.getPackageType();
 			int data_other = barrageHeadHandle.getPackageOther();
-//			LOGGER.debug("数据包:" + "(" + data_len + "," + head_len + "," + data_ver + "," + data_type + ","
-//					+ data_other + ")");
+			//System.out.println("数据包:" + "(" + data_len + "," + head_len + "," + data_ver + "," + data_type + ","
+			//		+ data_other + ")");
 			bs = ByteUtils.subBytes(bytes, head_len, data_len - head_len);
 
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
