@@ -132,7 +132,7 @@ public class PublicDataConf {
 	public static Long ROOMID_SAFE = null;
 	public static String SMALLHEART_ADRESS = null;
 	public static boolean is_sign= false;
-	public static String EDITION ="3.0.`";
+	public static String EDITION ="3.0.1";
 	
 	
 	//view
