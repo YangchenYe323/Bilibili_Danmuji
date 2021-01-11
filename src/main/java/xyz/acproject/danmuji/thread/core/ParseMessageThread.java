@@ -632,9 +632,9 @@ public class ParseMessageThread extends Thread{
 						EntryEffect entry = JSONObject.parseObject(jsonObject.getString("data"), EntryEffect.class);
 						stringBuilder.append(JodaTimeUtils.getCurrentTimeString());
 
-						System.out.println(entry.getCopy_writing());
-						System.out.println(entry.getUname());
-						System.out.println(entry.getPrivilege_type());
+						//System.out.println(entry.getCopy_writing());
+						//System.out.println(entry.getUname());
+						//System.out.println(entry.getPrivilege_type());
 
 						switch(entry.getPrivilege_type()){
 							case 3:

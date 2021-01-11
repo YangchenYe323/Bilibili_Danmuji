@@ -31,7 +31,7 @@ public class SendBarrageThread extends Thread {
 			//System.out.println("AAAAA");
 			//System.out.println(PublicDataConf.barrageString);
 			if (PublicDataConf.barrageString.size() > 0)
-				System.out.println(PublicDataConf.barrageString.get(0));
+				//System.out.println(PublicDataConf.barrageString.get(0));
 			if (null != PublicDataConf.barrageString && !PublicDataConf.barrageString.isEmpty()
 					&& !StringUtils.isEmpty(PublicDataConf.barrageString.get(0))) {
 				barrageStr = PublicDataConf.barrageString.get(0);
